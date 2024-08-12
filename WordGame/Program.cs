@@ -3,27 +3,20 @@ string? word, word1, word2;
 int num = 0;
 int turn;
 int letterCounterForMainWord;
-///123123123
 int letterCounterForUserWord;
 Console.WriteLine("Добро пожаловать в игру СЛОВА! \nПравила: Суть игры заключается в том, чтобы 2 пользователя поочередно вводили слова, состоящие\nиз букв первоначально указанного слова. Проигрывает тот, кто в свою очередь не вводит слово\nВведите первое слово для начала игры (от 8 до 30 символов)");
 word = Console.ReadLine();//Ввод первоначального слова
 Check(word);//Проверка первоначального слова
 do
 {
-    Console.WriteLine($"Ваше изначальное слово: {word}");
-    Console.ForegroundColor = ConsoleColor.Green;
-    Console.WriteLine("Игрок 1| Введите ваше слово! У вас 15 сек");
-    Console.ResetColor();
+    FirstPlayerTextColor();
     TimerCallback tm = new TimerCallback(FirstTime); //Таймер на 15 сек
     Timer timer = new Timer(tm, num, 15000, 0);
     turn = 2;
     word1 = Console.ReadLine(); //Ввод слова игроком 1
     timer.Dispose();//Отключение таймера
     Game(alphabet,word, word1, turn);//Проверка слова введёного игроком 1 по отношению к первоначальному слову
-    Console.WriteLine($"Ваше изначальное слово: {word}");
-    Console.ForegroundColor = ConsoleColor.Blue;
-    Console.WriteLine("Игрок 2| Введите ваше слово! У вас 15 сек");
-    Console.ResetColor();
+    SecondPlayerTextColor();
     TimerCallback tm1 = new TimerCallback(SecondTime); //Таймер на 15 сек
     Timer timer1 = new Timer(tm1, num, 15000, 0);
     turn = 1;
@@ -97,4 +90,24 @@ static void SecondTime(object? obj)//Если игрок 2 не успел вв�
 {
     Console.WriteLine("Вы не успели! Победил игрок 1!");
     Environment.Exit(0);
+}
+/// <summary>
+/// Change the test color for the first player to green. 
+/// </summary>
+void FirstPlayerTextColor()
+{
+    Console.WriteLine($"Ваше изначальное слово: {word}");
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.WriteLine("Игрок 1| Введите ваше слово! У вас 15 сек");
+    Console.ResetColor();
+}
+/// <summary>
+/// Change the test color for the second player to blue. 
+/// </summary>
+void SecondPlayerTextColor()
+{
+    Console.WriteLine($"Ваше изначальное слово: {word}");
+    Console.ForegroundColor = ConsoleColor.Blue;
+    Console.WriteLine("Игрок 2| Введите ваше слово! У вас 15 сек");
+    Console.ResetColor();
 }
