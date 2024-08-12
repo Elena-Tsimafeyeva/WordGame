@@ -92,7 +92,7 @@ static void SecondTime(object? obj)//Если игрок 2 не успел вв�
     Environment.Exit(0);
 }
 /// <summary>
-/// Change the test color for the first player to green. 
+/// Change the text color for the first player to green. 
 /// </summary>
 void FirstPlayerTextColor()
 {
@@ -102,7 +102,7 @@ void FirstPlayerTextColor()
     Console.ResetColor();
 }
 /// <summary>
-/// Change the test color for the second player to blue. 
+/// Change the text color for the second player to blue. 
 /// </summary>
 void SecondPlayerTextColor()
 {
