@@ -1,7 +1,6 @@
 ﻿string alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyz";
 string? word, word1, word2;
 int num = 0;
-int turn;
 int letterCounterForMainWord;
 int letterCounterForUserWord;
 Console.WriteLine("Добро пожаловать в игру СЛОВА! \nПравила: Суть игры заключается в том, чтобы 2 пользователя поочередно вводили слова, состоящие\nиз букв первоначально указанного слова. Проигрывает тот, кто в свою очередь не вводит слово\nВведите первое слово для начала игры (от 8 до 30 символов)");
@@ -12,17 +11,15 @@ do
     FirstPlayerTextColor();
     TimerCallback tm = new TimerCallback(FirstTime); //Таймер на 15 сек
     Timer timer = new Timer(tm, num, 15000, 0);
-    turn = 2;
     word1 = Console.ReadLine(); //Ввод слова игроком 1
     timer.Dispose();//Отключение таймера
-    Game(alphabet,word, word1, turn);//Проверка слова введёного игроком 1 по отношению к первоначальному слову
+    Game(alphabet,word, word1, 2);//Проверка слова введёного игроком 1 по отношению к первоначальному слову
     SecondPlayerTextColor();
     TimerCallback tm1 = new TimerCallback(SecondTime); //Таймер на 15 сек
     Timer timer1 = new Timer(tm1, num, 15000, 0);
-    turn = 1;
     word2 = Console.ReadLine();//Ввод слова игроком 2
     timer1.Dispose();//Отключение таймера
-    Game(alphabet,word, word2, turn);//Проверка слова введёного игроком 2 по отношению к первоначальному слову
+    Game(alphabet,word, word2, 1);//Проверка слова введёного игроком 2 по отношению к первоначальному слову
 }
 while (true);
 void Check(string? word)
