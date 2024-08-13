@@ -8,16 +8,10 @@ CheckTheMainWord(word);//Проверка первоначального сло�
 do
 {
     FirstPlayerTextColor();
-    TimerCallback tm = new TimerCallback(FirstTime); //Таймер на 15 сек
-    Timer timer = new Timer(tm, num, 15000, 0);
-    word1 = Console.ReadLine(); //Ввод слова игроком 1
-    timer.Dispose();//Отключение таймера
+    FirstPlayerEnterTheWord(out word1);
     Game(alphabet,word, word1, 2);//Проверка слова введёного игроком 1 по отношению к первоначальному слову
     SecondPlayerTextColor();
-    TimerCallback tm1 = new TimerCallback(SecondTime); //Таймер на 15 сек
-    Timer timer1 = new Timer(tm1, num, 15000, 0);
-    word2 = Console.ReadLine();//Ввод слова игроком 2
-    timer1.Dispose();//Отключение таймера
+    SecondPlayerEnterTheWord(out word2);
     Game(alphabet,word, word2, 1);//Проверка слова введёного игроком 2 по отношению к первоначальному слову
 }
 while (true);
@@ -84,6 +78,20 @@ void Game(string alphabet, string? word, string? word1, int turn)//Провер�
         }
 
     }
+}
+void FirstPlayerEnterTheWord(out string? word1)
+{
+    TimerCallback tm = new TimerCallback(FirstTime); //Таймер на 15 сек
+    Timer timer = new Timer(tm, num, 15000, 0);
+    word1 = Console.ReadLine(); //Ввод слова игроком 1
+    timer.Dispose();//Отключение таймера
+}
+void SecondPlayerEnterTheWord(out string? word2)
+{
+    TimerCallback tm1 = new TimerCallback(SecondTime); //Таймер на 15 сек
+    Timer timer1 = new Timer(tm1, num, 15000, 0);
+    word2 = Console.ReadLine();//Ввод слова игроком 2
+    timer1.Dispose();//Отключение таймера
 }
 static void FirstTime(object? obj)//Если игрок 1 не успел ввести слово за 15 сек
 {
