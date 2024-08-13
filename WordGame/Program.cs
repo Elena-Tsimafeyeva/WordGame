@@ -3,9 +3,8 @@ string? word, word1, word2;
 int num = 0;
 int letterCounterForMainWord;
 int letterCounterForUserWord;
-Console.WriteLine("Добро пожаловать в игру СЛОВА! \nПравила: Суть игры заключается в том, чтобы 2 пользователя поочередно вводили слова, состоящие\nиз букв первоначально указанного слова. Проигрывает тот, кто в свою очередь не вводит слово\nВведите первое слово для начала игры (от 8 до 30 символов)");
-word = Console.ReadLine();//Ввод первоначального слова
-Check(word);//Проверка первоначального слова
+EnterTheMainWord(out word);//Ввод первоначального слова
+CheckTheMainWord(word);//Проверка первоначального слова
 do
 {
     FirstPlayerTextColor();
@@ -22,7 +21,15 @@ do
     Game(alphabet,word, word2, 1);//Проверка слова введёного игроком 2 по отношению к первоначальному слову
 }
 while (true);
-void Check(string? word)
+void EnterTheMainWord(out string? word)
+{
+    Console.WriteLine("Добро пожаловать в игру СЛОВА! \nПравила: Суть игры заключается в том, чтобы 2 пользователя поочередно вводили слова, состоящие\nиз букв первоначально указанного слова. Проигрывает тот, кто в свою очередь не вводит слово.");
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine("Введите первое слово для начала игры (от 8 до 30 символов)");
+    Console.ResetColor();
+    word = Console.ReadLine();//Ввод первоначального слова
+}
+void CheckTheMainWord(string? word)
 {
     int lg = word.Length;
     bool lgword = ((8 <= lg) & (lg <= 30)); //Длина первоначально вводимого слова – от 8 до 30 символов
