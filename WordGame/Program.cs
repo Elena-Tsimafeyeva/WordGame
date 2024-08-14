@@ -41,7 +41,7 @@ void Game(string symbols, string? word, string? word1, int turn)//Проверк
 {
     letterCounterForMainWord = 0;
     letterCounterForUserWord = 0;
-    if (word1 == null)//Проверка ввёл ли игрок слово
+    if (word1.Length == 0)//Проверка ввёл ли игрок слово
     {
         Console.WriteLine("Вы ничего не ввели :(");
         Console.WriteLine($"Игра окончена! Победил игрок {turn}!");
