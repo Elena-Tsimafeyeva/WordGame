@@ -1,4 +1,4 @@
-﻿string alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyz";
+﻿string symbols = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyz1234567890!?@#$%^&*()_-=+№;:<>.,/|`~{}[] ";
 string? word, word1, word2;
 int num = 0;
 int letterCounterForMainWord;
@@ -9,10 +9,10 @@ do
 {
     FirstPlayerTextColor();
     FirstPlayerEnterTheWord(out word1);
-    Game(alphabet,word, word1, 2);//Проверка слова введёного игроком 1 по отношению к первоначальному слову
+    Game(symbols,word, word1, 2);//Проверка слова введёного игроком 1 по отношению к первоначальному слову
     SecondPlayerTextColor();
     SecondPlayerEnterTheWord(out word2);
-    Game(alphabet,word, word2, 1);//Проверка слова введёного игроком 2 по отношению к первоначальному слову
+    Game(symbols,word, word2, 1);//Проверка слова введёного игроком 2 по отношению к первоначальному слову
 }
 while (true);
 void EnterTheMainWord(out string? word)
@@ -37,7 +37,7 @@ void CheckTheMainWord(string? word)
         Environment.Exit(1);
     }
 }
-void Game(string alphabet, string? word, string? word1, int turn)//Проверка слова введёного игроком по отношению к первоначальному слову
+void Game(string symbols, string? word, string? word1, int turn)//Проверка слова введёного игроком по отношению к первоначальному слову
 {
     letterCounterForMainWord = 0;
     letterCounterForUserWord = 0;
@@ -49,7 +49,7 @@ void Game(string alphabet, string? word, string? word1, int turn)//Провер�
     }
     else //Если игрок ввёл слово
     {
-        for (int i = 0; i < alphabet.Length; i++)//Проверка введённого слова по отношению первоначальному слову
+        for (int i = 0; i < symbols.Length; i++)//Проверка введённого слова по отношению первоначальному слову
         {
             if (i != 0)
             {
@@ -63,14 +63,14 @@ void Game(string alphabet, string? word, string? word1, int turn)//Провер�
             letterCounterForUserWord = 0;
             for (int j = 0; j < word.Length; j++)
             {
-                if (alphabet[i] == word[j])
+                if (symbols[i] == word[j])
                 {
                     letterCounterForMainWord++;
                 }
             }
             for (int j = 0; j < word1.Length; j++)
             {
-                if (alphabet[i] == word1[j])
+                if (symbols[i] == word1[j])
                 {
                     letterCounterForUserWord++;
                 }
