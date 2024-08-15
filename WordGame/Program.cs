@@ -56,27 +56,31 @@ void ChekTheEnteredWordAgainstTheMainWord(string symbols, string? word, string? 
     {
         if (i != 0)
         {
-            if (letterCounterForMainWord < letterCounterForUserWord)
+            if (letterCounterForMainWord < letterCounterForUserWord)//Если слово введённое игроком не соответствует по символам главному слову, то игра заканчивается. 
             {
                 Console.WriteLine($"Игра окончена! Победил игрок {turn}!");
                 Environment.Exit(1);
             }
         }
-        letterCounterForMainWord = 0;
-        letterCounterForUserWord = 0;
-        for (int j = 0; j < word.Length; j++)
+        ChekingSymbolsInAWord(symbols, word, word1, i, out letterCounterForMainWord, out letterCounterForUserWord);
+    }
+}
+void ChekingSymbolsInAWord(string symbols, string? word, string? word1, int i, out int letterCounterForMainWord, out int letterCounterForUserWord)
+{
+    letterCounterForMainWord = 0;
+    letterCounterForUserWord = 0;
+    for (int j = 0; j < word.Length; j++)
+    {
+        if (symbols[i] == word[j])
         {
-            if (symbols[i] == word[j])
-            {
-                letterCounterForMainWord++;
-            }
+            letterCounterForMainWord++;
         }
-        for (int j = 0; j < word1.Length; j++)
+    }
+    for (int j = 0; j < word1.Length; j++)
+    {
+        if (symbols[i] == word1[j])
         {
-            if (symbols[i] == word1[j])
-            {
-                letterCounterForUserWord++;
-            }
+            letterCounterForUserWord++;
         }
     }
 }
