@@ -4,6 +4,8 @@
 //The variable "number" for the timer is declared.
 string symbols = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyz1234567890!?@#$%^&*()_-=+№;:<>.,/|`~{}[] ";
 string? initialWord, firstPlayerInput, secondPlayerInput;
+const int minNumberOfSymbolsInTheMainWord = 8;
+const int maxNumberOfSymbolsInTheMainWord = 30;
 //int num = 0;
 //E.A.T. 15-August-2024
 //A method is called to enter the initial word.
@@ -49,9 +51,9 @@ void EnterTheMainWord(out string? initialWord)
 ///</summary>
 void CheckTheMainWord(string? initialWord)
 {
-    int lg = initialWord.Length;
-    bool lgword = ((8 <= lg) & (lg <= 30)); //Длина первоначально вводимого слова – от 8 до 30 символов
-    if (lgword == true)
+    int numberOfSymbolsInTheMainWord = initialWord.Length;
+    bool requiredNumberOfSymbolsInTheMainWord = ((minNumberOfSymbolsInTheMainWord <= numberOfSymbolsInTheMainWord) & (numberOfSymbolsInTheMainWord <= maxNumberOfSymbolsInTheMainWord)); //Длина первоначально вводимого слова – от 8 до 30 символов
+    if (requiredNumberOfSymbolsInTheMainWord == true)
     {
         Console.WriteLine("Хорошей игры!");
     }
