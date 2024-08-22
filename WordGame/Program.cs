@@ -3,7 +3,7 @@
 //Declared "word, word1, word2" variables for inputting the main word and players' words.
 //The variable "number" for the timer is declared.
 string symbols = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyz1234567890!?@#$%^&*()_-=+№;:<>.,/|`~{}[] ";
-string? initialWord, word1, word2;
+string? initialWord, firstPlayerInput, secondPlayerInput;
 int num = 0;
 //E.A.T. 15-August-2024
 //A method is called to enter the initial word.
@@ -21,11 +21,11 @@ CheckTheMainWord(initialWord);//Проверка первоначального 
 do
 {
     FirstPlayerTextColor();
-    FirstPlayerEnterTheWord(out word1);
-    Game(symbols,initialWord, word1, 2);//Проверка слова введёного игроком 1 по отношению к первоначальному слову
+    FirstPlayerEnterTheWord(out firstPlayerInput);
+    Game(symbols,initialWord, firstPlayerInput, 2);//Проверка слова введёного игроком 1 по отношению к первоначальному слову
     SecondPlayerTextColor();
-    SecondPlayerEnterTheWord(out word2);
-    Game(symbols,initialWord, word2, 1);//Проверка слова введёного игроком 2 по отношению к первоначальному слову
+    SecondPlayerEnterTheWord(out secondPlayerInput);
+    Game(symbols,initialWord, secondPlayerInput, 1);//Проверка слова введёного игроком 2 по отношению к первоначальному слову
 }
 while (true);
 ///<summary>
@@ -67,9 +67,9 @@ void CheckTheMainWord(string? initialWord)
 ///If the player has entered a word, the word check starts.
 /// The "ChekTheEnteredWordAgainstTheMainWord" method is used to check the entered words.
 ///</summary>
-void Game(string symbols, string? initialWord, string? word1, int turn)//Проверка слова введёного игроком по отношению к первоначальному слову
+void Game(string symbols, string? initialWord, string? playerInput, int turn)//Проверка слова введёного игроком по отношению к первоначальному слову
 {
-    if (word1.Length == 0)//Проверка ввёл ли игрок слово
+    if (playerInput.Length == 0)//Проверка ввёл ли игрок слово
     {
         Console.WriteLine("Вы ничего не ввели :(");
         Console.WriteLine($"Игра окончена! Победил игрок {turn}!");
@@ -77,7 +77,7 @@ void Game(string symbols, string? initialWord, string? word1, int turn)//Про�
     }
     else //Если игрок ввёл слово
     {
-        ChekTheEnteredWordAgainstTheMainWord(symbols, initialWord, word1, turn);
+        ChekTheEnteredWordAgainstTheMainWord(symbols, initialWord, playerInput, turn);
     }
 }
 ///<summary>
@@ -85,7 +85,7 @@ void Game(string symbols, string? initialWord, string? word1, int turn)//Про�
 ///Comparing the symbols in the player's word to the main word.
 ///The "ChekingSymbolsInAWord" method is used to determine the number of symbols in the player's word and in the main word.
 ///</summary>
-void ChekTheEnteredWordAgainstTheMainWord(string symbols, string? initialWord, string? word1, int turn)
+void ChekTheEnteredWordAgainstTheMainWord(string symbols, string? initialWord, string? playerInput, int turn)
 {
     int letterCounterForMainWord = 0;
     int letterCounterForUserWord = 0;
@@ -99,14 +99,14 @@ void ChekTheEnteredWordAgainstTheMainWord(string symbols, string? initialWord, s
                 Environment.Exit(1);
             }
         }
-        ChekingSymbolsInAWord(symbols, initialWord, word1, i, out letterCounterForMainWord, out letterCounterForUserWord);
+        ChekingSymbolsInAWord(symbols, initialWord, playerInput, i, out letterCounterForMainWord, out letterCounterForUserWord);
     }
 }
 ///<summary>
 ///E.A.T. 15-August-2024
 ///Determining the number of symbols in the player's word and in the main word.
 ///</summary>
-void ChekingSymbolsInAWord(string symbols, string? initialWord, string? word1, int i, out int letterCounterForMainWord, out int letterCounterForUserWord)
+void ChekingSymbolsInAWord(string symbols, string? initialWord, string? playerInput, int i, out int letterCounterForMainWord, out int letterCounterForUserWord)
 {
     letterCounterForMainWord = 0;
     letterCounterForUserWord = 0;
@@ -117,9 +117,9 @@ void ChekingSymbolsInAWord(string symbols, string? initialWord, string? word1, i
             letterCounterForMainWord++;
         }
     }
-    for (int j = 0; j < word1.Length; j++)
+    for (int j = 0; j < playerInput.Length; j++)
     {
-        if (symbols[i] == word1[j])
+        if (symbols[i] == playerInput[j])
         {
             letterCounterForUserWord++;
         }
@@ -131,11 +131,11 @@ void ChekingSymbolsInAWord(string symbols, string? initialWord, string? word1, i
 ///If the first player does not have time to enter the word, the timer will call the "FirstTime" method to end the game.
 ///If the first player manages to enter the word in 15 seconds, the timer will turn off.
 ///</summary>
-void FirstPlayerEnterTheWord(out string? word1)
+void FirstPlayerEnterTheWord(out string? firstPlayerInput)
 {
     TimerCallback tm = new TimerCallback(FirstTime); //Таймер на 15 сек
     Timer timer = new Timer(tm, num, 15000, 0);
-    word1 = Console.ReadLine(); //Ввод слова игроком 1
+    firstPlayerInput = Console.ReadLine(); //Ввод слова игроком 1
     timer.Dispose();//Отключение таймера
 }
 ///<summary>
@@ -144,11 +144,11 @@ void FirstPlayerEnterTheWord(out string? word1)
 ///If the second player does not have time to enter the word, the timer will call the "SecondTime" method to end the game.
 ///If the second player manages to enter the word in 15 seconds, the timer will turn off.
 ///</summary>
-void SecondPlayerEnterTheWord(out string? word2)
+void SecondPlayerEnterTheWord(out string? secondPlayerInput)
 {
     TimerCallback tm1 = new TimerCallback(SecondTime); //Таймер на 15 сек
     Timer timer1 = new Timer(tm1, num, 15000, 0);
-    word2 = Console.ReadLine();//Ввод слова игроком 2
+    secondPlayerInput = Console.ReadLine();//Ввод слова игроком 2
     timer1.Dispose();//Отключение таймера
 }
 ///<summary>
