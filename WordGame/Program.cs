@@ -4,7 +4,7 @@
 //The variable "number" for the timer is declared.
 string symbols = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyz1234567890!?@#$%^&*()_-=+№;:<>.,/|`~{}[] ";
 string? initialWord, firstPlayerInput, secondPlayerInput;
-int num = 0;
+//int num = 0;
 //E.A.T. 15-August-2024
 //A method is called to enter the initial word.
 //The method to check the initial word is called.
@@ -134,7 +134,7 @@ void ChekingSymbolsInAWord(string symbols, string? initialWord, string? playerIn
 void FirstPlayerEnterTheWord(out string? firstPlayerInput)
 {
     TimerCallback tm = new TimerCallback(FirstTime); //Таймер на 15 сек
-    Timer timer = new Timer(tm, num, 15000, 0);
+    Timer timer = new Timer(tm, null, 15000, 0);
     firstPlayerInput = Console.ReadLine(); //Ввод слова игроком 1
     timer.Dispose();//Отключение таймера
 }
@@ -147,7 +147,7 @@ void FirstPlayerEnterTheWord(out string? firstPlayerInput)
 void SecondPlayerEnterTheWord(out string? secondPlayerInput)
 {
     TimerCallback tm1 = new TimerCallback(SecondTime); //Таймер на 15 сек
-    Timer timer1 = new Timer(tm1, num, 15000, 0);
+    Timer timer1 = new Timer(tm1, null, 15000, 0);
     secondPlayerInput = Console.ReadLine();//Ввод слова игроком 2
     timer1.Dispose();//Отключение таймера
 }
