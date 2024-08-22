@@ -3,13 +3,13 @@
 //Declared "word, word1, word2" variables for inputting the main word and players' words.
 //The variable "number" for the timer is declared.
 string symbols = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyz1234567890!?@#$%^&*()_-=+№;:<>.,/|`~{}[] ";
-string? initialword, word1, word2;
+string? initialWord, word1, word2;
 int num = 0;
 //E.A.T. 15-August-2024
 //A method is called to enter the initial word.
 //The method to check the initial word is called.
-EnterTheMainWord(out initialword);//Ввод первоначального слова
-CheckTheMainWord(initialword);//Проверка первоначального слова
+EnterTheMainWord(out initialWord);//Ввод первоначального слова
+CheckTheMainWord(initialWord);//Проверка первоначального слова
 //E.A.T. 15-August-2024
 //The do-While loop is where the game itself takes place.
 //The "FirstPlayerTextColor" method is called to change the text color for the first player.
@@ -22,10 +22,10 @@ do
 {
     FirstPlayerTextColor();
     FirstPlayerEnterTheWord(out word1);
-    Game(symbols,initialword, word1, 2);//Проверка слова введёного игроком 1 по отношению к первоначальному слову
+    Game(symbols,initialWord, word1, 2);//Проверка слова введёного игроком 1 по отношению к первоначальному слову
     SecondPlayerTextColor();
     SecondPlayerEnterTheWord(out word2);
-    Game(symbols,initialword, word2, 1);//Проверка слова введёного игроком 2 по отношению к первоначальному слову
+    Game(symbols,initialWord, word2, 1);//Проверка слова введёного игроком 2 по отношению к первоначальному слову
 }
 while (true);
 ///<summary>
@@ -33,13 +33,13 @@ while (true);
 ///Display the rules on the screen.
 ///Input the main word.
 ///</summary>
-void EnterTheMainWord(out string? word)
+void EnterTheMainWord(out string? initialWord)
 {
     Console.WriteLine("Добро пожаловать в игру СЛОВА! \nПравила: Суть игры заключается в том, чтобы 2 пользователя поочередно вводили слова, состоящие\nиз букв первоначально указанного слова. Проигрывает тот, кто в свою очередь не вводит слово.");
     Console.ForegroundColor = ConsoleColor.Yellow;
     Console.WriteLine("Введите первое слово для начала игры (от 8 до 30 символов)");
     Console.ResetColor();
-    word = Console.ReadLine();//Ввод первоначального слова
+    initialWord = Console.ReadLine();//Ввод первоначального слова
 }
 ///<summary>
 ///E.A.T. 15-August-2024
@@ -47,9 +47,9 @@ void EnterTheMainWord(out string? word)
 ///If the length of the main word matches the rules, the game starts.
 ///Otherwise, the game ends with the appropriate message.
 ///</summary>
-void CheckTheMainWord(string? initialword)
+void CheckTheMainWord(string? initialWord)
 {
-    int lg = initialword.Length;
+    int lg = initialWord.Length;
     bool lgword = ((8 <= lg) & (lg <= 30)); //Длина первоначально вводимого слова – от 8 до 30 символов
     if (lgword == true)
     {
@@ -67,7 +67,7 @@ void CheckTheMainWord(string? initialword)
 ///If the player has entered a word, the word check starts.
 /// The "ChekTheEnteredWordAgainstTheMainWord" method is used to check the entered words.
 ///</summary>
-void Game(string symbols, string? initialword, string? word1, int turn)//Проверка слова введёного игроком по отношению к первоначальному слову
+void Game(string symbols, string? initialWord, string? word1, int turn)//Проверка слова введёного игроком по отношению к первоначальному слову
 {
     if (word1.Length == 0)//Проверка ввёл ли игрок слово
     {
@@ -77,7 +77,7 @@ void Game(string symbols, string? initialword, string? word1, int turn)//Про�
     }
     else //Если игрок ввёл слово
     {
-        ChekTheEnteredWordAgainstTheMainWord(symbols, initialword, word1, turn);
+        ChekTheEnteredWordAgainstTheMainWord(symbols, initialWord, word1, turn);
     }
 }
 ///<summary>
@@ -85,7 +85,7 @@ void Game(string symbols, string? initialword, string? word1, int turn)//Про�
 ///Comparing the symbols in the player's word to the main word.
 ///The "ChekingSymbolsInAWord" method is used to determine the number of symbols in the player's word and in the main word.
 ///</summary>
-void ChekTheEnteredWordAgainstTheMainWord(string symbols, string? initialword, string? word1, int turn)
+void ChekTheEnteredWordAgainstTheMainWord(string symbols, string? initialWord, string? word1, int turn)
 {
     int letterCounterForMainWord = 0;
     int letterCounterForUserWord = 0;
@@ -99,20 +99,20 @@ void ChekTheEnteredWordAgainstTheMainWord(string symbols, string? initialword, s
                 Environment.Exit(1);
             }
         }
-        ChekingSymbolsInAWord(symbols, initialword, word1, i, out letterCounterForMainWord, out letterCounterForUserWord);
+        ChekingSymbolsInAWord(symbols, initialWord, word1, i, out letterCounterForMainWord, out letterCounterForUserWord);
     }
 }
 ///<summary>
 ///E.A.T. 15-August-2024
 ///Determining the number of symbols in the player's word and in the main word.
 ///</summary>
-void ChekingSymbolsInAWord(string symbols, string? initialword, string? word1, int i, out int letterCounterForMainWord, out int letterCounterForUserWord)
+void ChekingSymbolsInAWord(string symbols, string? initialWord, string? word1, int i, out int letterCounterForMainWord, out int letterCounterForUserWord)
 {
     letterCounterForMainWord = 0;
     letterCounterForUserWord = 0;
-    for (int j = 0; j < initialword.Length; j++)
+    for (int j = 0; j < initialWord.Length; j++)
     {
-        if (symbols[i] == initialword[j])
+        if (symbols[i] == initialWord[j])
         {
             letterCounterForMainWord++;
         }
@@ -175,7 +175,7 @@ static void SecondTime(object? obj)//Если игрок 2 не успел вв�
 /// </summary>
 void FirstPlayerTextColor()
 {
-    Console.WriteLine($"Ваше изначальное слово: {initialword}");
+    Console.WriteLine($"Ваше изначальное слово: {initialWord}");
     Console.ForegroundColor = ConsoleColor.Green;
     Console.WriteLine("Игрок 1| Введите ваше слово! У вас 15 сек");
     Console.ResetColor();
@@ -186,7 +186,7 @@ void FirstPlayerTextColor()
 /// </summary>
 void SecondPlayerTextColor()
 {
-    Console.WriteLine($"Ваше изначальное слово: {initialword}");
+    Console.WriteLine($"Ваше изначальное слово: {initialWord}");
     Console.ForegroundColor = ConsoleColor.Blue;
     Console.WriteLine("Игрок 2| Введите ваше слово! У вас 15 сек");
     Console.ResetColor();
