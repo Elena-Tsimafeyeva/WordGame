@@ -188,8 +188,17 @@ void FirstPlayerTextColor()
 /// </summary>
 void SecondPlayerTextColor()
 {
+    Print($"Ваше изначальное слово: {initialWord}");
     Console.WriteLine($"Ваше изначальное слово: {initialWord}");
     Console.ForegroundColor = ConsoleColor.Blue;
     Console.WriteLine("Игрок 2| Введите ваше слово! У вас 15 сек");
     Console.ResetColor();
+}
+/// <summary>
+/// E.A.T. 25-August-2024
+/// Text output.
+/// </summary>
+void Print(string text)
+{
+    Console.WriteLine(text);
 }
