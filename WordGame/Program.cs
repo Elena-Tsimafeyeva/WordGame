@@ -37,10 +37,8 @@ while (true);
 ///</summary>
 void EnterTheMainWord(out string? initialWord)
 {
-    Console.WriteLine("Добро пожаловать в игру СЛОВА! \nПравила: Суть игры заключается в том, чтобы 2 пользователя поочередно вводили слова, состоящие\nиз букв первоначально указанного слова. Проигрывает тот, кто в свою очередь не вводит слово.");
-    Console.ForegroundColor = ConsoleColor.Yellow;
-    Console.WriteLine("Введите первое слово для начала игры (от 8 до 30 символов)");
-    Console.ResetColor();
+    Print("Добро пожаловать в игру СЛОВА! \nПравила: Суть игры заключается в том, чтобы 2 пользователя поочередно вводили слова, состоящие\nиз букв первоначально указанного слова. Проигрывает тот, кто в свою очередь не вводит слово.");
+    YellowPrint("Введите первое слово для начала игры (от 8 до 30 символов)");
     initialWord = Console.ReadLine();//Ввод первоначального слова
 }
 ///<summary>
@@ -55,11 +53,11 @@ void CheckTheMainWord(string? initialWord)
     bool requiredNumberOfSymbolsInTheMainWord = ((minNumberOfSymbolsInTheMainWord <= numberOfSymbolsInTheMainWord) & (numberOfSymbolsInTheMainWord <= maxNumberOfSymbolsInTheMainWord)); //Длина первоначально вводимого слова – от 8 до 30 символов
     if (requiredNumberOfSymbolsInTheMainWord == true)
     {
-        Console.WriteLine("Хорошей игры!");
+        Print("Хорошей игры!");
     }
     else
     {
-        Console.WriteLine("Введено слово с неверным кол-вом символов или введено неверное значение");
+        Print("Введено слово с неверным кол-вом символов или введено неверное значение");
         Environment.Exit(1);
     }
 }
@@ -73,8 +71,8 @@ void Game(string symbols, string? initialWord, string? playerInput, int turn)//�
 {
     if (playerInput.Length == 0)//Проверка ввёл ли игрок слово
     {
-        Console.WriteLine("Вы ничего не ввели :(");
-        Console.WriteLine($"Игра окончена! Победил игрок {turn}!");
+        Print("Вы ничего не ввели :(");
+        Print($"Игра окончена! Победил игрок {turn}!");
         Environment.Exit(1);
     }
     else //Если игрок ввёл слово
@@ -97,7 +95,7 @@ void ChekTheEnteredWordAgainstTheMainWord(string symbols, string? initialWord, s
         {
             if (letterCounterForMainWord < letterCounterForUserWord)//Если слово введённое игроком не соответствует по символам главному слову, то игра заканчивается. 
             {
-                Console.WriteLine($"Игра окончена! Победил игрок {turn}!");
+                Print($"Игра окончена! Победил игрок {turn}!");
                 Environment.Exit(1);
             }
         }
@@ -157,18 +155,18 @@ void SecondPlayerEnterTheWord(out string? secondPlayerInput)
 ///E.A.T. 15-August-2024
 ///The game ends if the first player fails to enter within 15 seconds.
 ///</summary>
-static void FirstTime(object? obj)//Если игрок 1 не успел ввести слово за 15 сек
+void FirstTime(object? obj)//Если игрок 1 не успел ввести слово за 15 сек
 {
-    Console.WriteLine("Вы не успели! Победил игрок 2!");
+    Print("Вы не успели! Победил игрок 2!");
     Environment.Exit(0);
 }
 ///<summary>
 ///E.A.T. 15-August-2024
 ///The game ends if the second player fails to enter within 15 seconds.
 ///</summary>
-static void SecondTime(object? obj)//Если игрок 2 не успел ввести слово за 15 сек
+void SecondTime(object? obj)//Если игрок 2 не успел ввести слово за 15 сек
 {
-    Console.WriteLine("Вы не успели! Победил игрок 1!");
+    Print("Вы не успели! Победил игрок 1!");
     Environment.Exit(0);
 }
 /// <summary>
@@ -177,10 +175,8 @@ static void SecondTime(object? obj)//Если игрок 2 не успел вв�
 /// </summary>
 void FirstPlayerTextColor()
 {
-    Console.WriteLine($"Ваше изначальное слово: {initialWord}");
-    Console.ForegroundColor = ConsoleColor.Green;
-    Console.WriteLine("Игрок 1| Введите ваше слово! У вас 15 сек");
-    Console.ResetColor();
+    Print($"Ваше изначальное слово: {initialWord}");
+    GreenPrint("Игрок 1| Введите ваше слово! У вас 15 сек");
 }
 /// <summary>
 /// E.A.T. 12-August-2024
@@ -189,10 +185,7 @@ void FirstPlayerTextColor()
 void SecondPlayerTextColor()
 {
     Print($"Ваше изначальное слово: {initialWord}");
-    Console.WriteLine($"Ваше изначальное слово: {initialWord}");
-    Console.ForegroundColor = ConsoleColor.Blue;
-    Console.WriteLine("Игрок 2| Введите ваше слово! У вас 15 сек");
-    Console.ResetColor();
+    BluePrint("Игрок 2| Введите ваше слово! У вас 15 сек");
 }
 /// <summary>
 /// E.A.T. 25-August-2024
