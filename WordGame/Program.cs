@@ -39,7 +39,7 @@ void EnterTheMainWord(out string? initialWord)
 {
     Print("Добро пожаловать в игру СЛОВА! \nПравила: Суть игры заключается в том, чтобы 2 пользователя поочередно вводили слова, состоящие\nиз букв первоначально указанного слова. Проигрывает тот, кто в свою очередь не вводит слово.");
     YellowPrint("Введите первое слово для начала игры (от 8 до 30 символов)");
-    initialWord = Console.ReadLine();//Ввод первоначального слова
+    Read(out initialWord);//Ввод первоначального слова
 }
 ///<summary>
 ///E.A.T. 15-August-2024
@@ -135,7 +135,7 @@ void FirstPlayerEnterTheWord(out string? firstPlayerInput)
 {
     TimerCallback tm = new TimerCallback(FirstTime); //Таймер на 15 сек
     Timer timer = new Timer(tm, null, 15000, 0);
-    firstPlayerInput = Console.ReadLine(); //Ввод слова игроком 1
+    Read(out firstPlayerInput); //Ввод слова игроком 1
     timer.Dispose();//Отключение таймера
 }
 ///<summary>
@@ -148,7 +148,7 @@ void SecondPlayerEnterTheWord(out string? secondPlayerInput)
 {
     TimerCallback tm1 = new TimerCallback(SecondTime); //Таймер на 15 сек
     Timer timer1 = new Timer(tm1, null, 15000, 0);
-    secondPlayerInput = Console.ReadLine();//Ввод слова игроком 2
+    Read(out secondPlayerInput); //Ввод слова игроком 2
     timer1.Dispose();//Отключение таймера
 }
 ///<summary>
@@ -224,4 +224,12 @@ void BluePrint(string text)
     Console.ForegroundColor = ConsoleColor.Blue;
     Console.WriteLine(text);
     Console.ResetColor();
+}
+/// <summary>
+/// E.A.T. 26-August-2024
+/// Entering a word.
+/// </summary>
+void Read(out string? word)
+{
+    word = Console.ReadLine();
 }
