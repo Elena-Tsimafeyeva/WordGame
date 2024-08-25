@@ -196,9 +196,39 @@ void SecondPlayerTextColor()
 }
 /// <summary>
 /// E.A.T. 25-August-2024
-/// Text output.
+/// Output white text.
 /// </summary>
 void Print(string text)
 {
     Console.WriteLine(text);
+}
+/// <summary>
+/// E.A.T. 25-August-2024
+/// Output yellow text.
+/// </summary>
+void YellowPrint(string text)
+{
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine(text);
+    Console.ResetColor();
+}
+/// <summary>
+/// E.A.T. 25-August-2024
+/// Output green text.
+/// </summary>
+void GreenPrint(string text)
+{
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.WriteLine(text);
+    Console.ResetColor();
+}
+/// <summary>
+/// E.A.T. 25-August-2024
+/// Output blue text.
+/// </summary>
+void BluePrint(string text)
+{
+    Console.ForegroundColor = ConsoleColor.Blue;
+    Console.WriteLine(text);
+    Console.ResetColor();
 }
