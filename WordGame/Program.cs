@@ -3,10 +3,16 @@
 //Declared "word, word1, word2" variables for inputting the main word and players' words.
 //The variable "number" for the timer is declared.
 string symbols = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyz1234567890!?@#$%^&*()_-=+№;:<>.,/|`~{}[] ";
+string? language;
+const string eng = "1";
+const string rus = "2";
+bool languageBool = true;
 string? initialWord, firstPlayerInput, secondPlayerInput;
 const int minNumberOfSymbolsInTheMainWord = 8;
 const int maxNumberOfSymbolsInTheMainWord = 30;
 //int num = 0;
+Language();
+YourChosenLanguage();
 //E.A.T. 15-August-2024
 //A method is called to enter the initial word.
 //The method to check the initial word is called.
@@ -232,4 +238,31 @@ void BluePrint(string text)
 void Read(out string? word)
 {
     word = Console.ReadLine();
+}
+void LanguageBool()
+{
+    if (language == eng || language == rus)
+    {
+        languageBool = false;
+    }
+}
+void Language()
+{
+    do
+    {
+        Print("Выберите Язык | Select Language\nАнглийский язык - 1, Русский язык - 2\nEnglish - 1, Russian - 2");
+        Read(out language);
+        LanguageBool();
+    } while (languageBool == true);
+}
+void YourChosenLanguage()
+{
+    if (language == eng)
+    {
+        Print("Your selected language: English.");
+    }
+    else if (language == rus)
+    {
+        Print("Ваш выбранный язык: Русский.");
+    }
 }
