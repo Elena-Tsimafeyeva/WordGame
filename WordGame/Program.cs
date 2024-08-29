@@ -51,14 +51,8 @@ while (true);
 ///</summary>
 void EnterTheMainWord(out string? initialWord)
 {
-    if (language == eng) {
-        Print("Welcome to the game of WORDS! \nRules: The essence of the game is for 2 users to alternately enter words consisting\nof the letters of the initially specified word. The one who does not enter the word in turn loses.");
-        YellowPrint("Enter the first word to start the game (from 8 to 30 characters)");
-    } else if (language == rus)
-    {
-        Print("Добро пожаловать в игру СЛОВА! \nПравила: Суть игры заключается в том, чтобы 2 пользователя поочередно вводили слова, состоящие\nиз букв первоначально указанного слова. Проигрывает тот, кто в свою очередь не вводит слово.");
-        YellowPrint("Введите первое слово для начала игры (от 8 до 30 символов)");
-    }
+    PrintLanguage("Welcome to the game of WORDS! \nRules: The essence of the game is for 2 users to alternately enter words consisting\nof the letters of the initially specified word. The one who does not enter the word in turn loses.", "Добро пожаловать в игру СЛОВА! \nПравила: Суть игры заключается в том, чтобы 2 пользователя поочередно вводили слова, состоящие\nиз букв первоначально указанного слова. Проигрывает тот, кто в свою очередь не вводит слово.");
+    YellowPrintLanguage("Enter the first word to start the game (from 8 to 30 characters)", "Введите первое слово для начала игры (от 8 до 30 символов)");
     Read(out initialWord);//Ввод первоначального слова
 }
 ///<summary>
@@ -73,25 +67,11 @@ void CheckTheMainWord(string? initialWord)
     bool requiredNumberOfSymbolsInTheMainWord = ((minNumberOfSymbolsInTheMainWord <= numberOfSymbolsInTheMainWord) & (numberOfSymbolsInTheMainWord <= maxNumberOfSymbolsInTheMainWord)); //Длина первоначально вводимого слова – от 8 до 30 символов
     if (requiredNumberOfSymbolsInTheMainWord == true)
     {
-        if (language == eng)
-        {
-            Print("Have a nice game!");
-        }
-        else if (language == rus)
-        {
-            Print("Хорошей игры!");
-        }
+        PrintLanguage("Have a nice game!", "Хорошей игры!");
     }
     else
     {
-        if (language == eng)
-        {
-            Print("A word has been entered with an incorrect number of characters or an incorrect value has been entered");
-        }
-        else if (language == rus)
-        {
-            Print("Введено слово с неверным кол-вом символов или введено неверное значение");
-        }
+        PrintLanguage("A word has been entered with an incorrect number of characters or an incorrect value has been entered", "Введено слово с неверным кол-вом символов или введено неверное значение");
         Environment.Exit(1);
     }
 }
@@ -105,14 +85,7 @@ void Game(string symbols, string? initialWord, string? playerInput, int turn)//�
 {
     if (playerInput.Length == 0)//Проверка ввёл ли игрок слово
     {
-        if (language == eng)
-        {
-            Print($"You have not entered anything :(\nGame over! Player {turn} wins!");
-        }
-        else if (language == rus)
-        {
-            Print($"Вы ничего не ввели :(\nИгра окончена! Победил игрок {turn}!");
-        }
+        YellowPrintLanguage($"You have not entered anything :(\nGame over! Player {turn} wins!", $"Вы ничего не ввели :(\nИгра окончена! Победил игрок {turn}!");
         Environment.Exit(1);
     }
     else //Если игрок ввёл слово
@@ -135,14 +108,7 @@ void ChekTheEnteredWordAgainstTheMainWord(string symbols, string? initialWord, s
         {
             if (letterCounterForMainWord < letterCounterForUserWord)//Если слово введённое игроком не соответствует по символам главному слову, то игра заканчивается. 
             {
-                if (language == eng)
-                {
-                    Print($"Game over! Player {turn} wins!");
-                }
-                else if (language == rus)
-                {
-                    Print($"Игра окончена! Победил игрок {turn}!");
-                }
+                YellowPrintLanguage($"Game over! Player {turn} wins!", $"Игра окончена! Победил игрок {turn}!");
                 Environment.Exit(1);
             }
         }
@@ -204,14 +170,7 @@ void SecondPlayerEnterTheWord(out string? secondPlayerInput)
 ///</summary>
 void FirstTime(object? obj)//Если игрок 1 не успел ввести слово за 15 сек
 {
-    if (language == eng)
-    {
-        Print("You didn't have time! Player 2 wins!");
-    }
-    else if (language == rus)
-    {
-        Print("Вы не успели! Победил игрок 2!");
-    }
+    YellowPrintLanguage("You didn't have time! Player 2 wins!", "Вы не успели! Победил игрок 2!");
     Environment.Exit(0);
 }
 ///<summary>
@@ -220,14 +179,7 @@ void FirstTime(object? obj)//Если игрок 1 не успел ввести 
 ///</summary>
 void SecondTime(object? obj)//Если игрок 2 не успел ввести слово за 15 сек
 {
-    if (language == eng)
-    {
-        Print("You didn't have time! Player 1 wins!");
-    }
-    else if (language == rus)
-    {
-        Print("Вы не успели! Победил игрок 1!");
-    }
+    YellowPrintLanguage("You didn't have time! Player 1 wins!", "Вы не успели! Победил игрок 1!");
     Environment.Exit(0);
 }
 /// <summary>
@@ -236,16 +188,8 @@ void SecondTime(object? obj)//Если игрок 2 не успел ввести
 /// </summary>
 void FirstPlayerTextColor()
 {
-    if (language == eng)
-    {
-        Print($"Your initial word: {initialWord}");
-        GreenPrint("Player 1| Enter your word! You have 15 seconds");
-    }
-    else if (language == rus)
-    {
-        Print($"Ваше изначальное слово: {initialWord}");
-        GreenPrint("Игрок 1| Введите ваше слово! У вас 15 сек");
-    }
+    PrintLanguage($"Your initial word: {initialWord}", $"Ваше изначальное слово: {initialWord}");
+    GreenPrintLanguage("Player 1| Enter your word! You have 15 seconds", "Игрок 1| Введите ваше слово! У вас 15 сек");
 }
 /// <summary>
 /// E.A.T. 12-August-2024
@@ -253,16 +197,8 @@ void FirstPlayerTextColor()
 /// </summary>
 void SecondPlayerTextColor()
 {
-    if (language == eng)
-    {
-        Print($"Your initial word: {initialWord}");
-        BluePrint("Player 2| Enter your word! You have 15 seconds");
-    }
-    else if (language == rus)
-    {
-        Print($"Ваше изначальное слово: {initialWord}");
-        BluePrint("Игрок 1| Введите ваше слово! У вас 15 сек");
-    }
+    PrintLanguage($"Your initial word: {initialWord}", $"Ваше изначальное слово: {initialWord}");
+    BluePrintLanguage("Player 2| Enter your word! You have 15 seconds", "Игрок 2| Введите ваше слово! У вас 15 сек");
 }
 /// <summary>
 /// E.A.T. 25-August-2024
@@ -271,6 +207,17 @@ void SecondPlayerTextColor()
 void Print(string text)
 {
     Console.WriteLine(text);
+}
+void PrintLanguage(string engText, string rusText)
+{
+    if (language == eng)
+    {
+        Console.WriteLine(engText);
+    }
+    else if (language == rus)
+    {
+        Console.WriteLine(rusText);
+    }
 }
 /// <summary>
 /// E.A.T. 25-August-2024
@@ -282,6 +229,17 @@ void YellowPrint(string text)
     Console.WriteLine(text);
     Console.ResetColor();
 }
+void YellowPrintLanguage(string engText, string rusText)
+{
+    if (language == eng)
+    {
+        YellowPrint(engText);
+    }
+    else if (language == rus)
+    {
+        YellowPrint(rusText);
+    }
+}
 /// <summary>
 /// E.A.T. 25-August-2024
 /// Output green text.
@@ -292,6 +250,17 @@ void GreenPrint(string text)
     Console.WriteLine(text);
     Console.ResetColor();
 }
+void GreenPrintLanguage(string engText, string rusText)
+{
+    if (language == eng)
+    {
+        GreenPrint(engText);
+    }
+    else if (language == rus)
+    {
+        GreenPrint(rusText);
+    }
+}
 /// <summary>
 /// E.A.T. 25-August-2024
 /// Output blue text.
@@ -301,6 +270,17 @@ void BluePrint(string text)
     Console.ForegroundColor = ConsoleColor.Blue;
     Console.WriteLine(text);
     Console.ResetColor();
+}
+void BluePrintLanguage(string engText, string rusText)
+{
+    if (language == eng)
+    {
+        BluePrint(engText);
+    }
+    else if (language == rus)
+    {
+        BluePrint(rusText);
+    }
 }
 /// <summary>
 /// E.A.T. 26-August-2024
@@ -328,12 +308,5 @@ void Language()
 }
 void YourChosenLanguage()
 {
-    if (language == eng)
-    {
-        Print("Your selected language: English.");
-    }
-    else if (language == rus)
-    {
-        Print("Ваш выбранный язык: Русский.");
-    }
+    YellowPrintLanguage("Your selected language: English.", "Ваш выбранный язык: Русский.");
 }
