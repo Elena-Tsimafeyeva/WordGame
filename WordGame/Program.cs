@@ -73,11 +73,25 @@ void CheckTheMainWord(string? initialWord)
     bool requiredNumberOfSymbolsInTheMainWord = ((minNumberOfSymbolsInTheMainWord <= numberOfSymbolsInTheMainWord) & (numberOfSymbolsInTheMainWord <= maxNumberOfSymbolsInTheMainWord)); //Длина первоначально вводимого слова – от 8 до 30 символов
     if (requiredNumberOfSymbolsInTheMainWord == true)
     {
-        Print("Хорошей игры!");
+        if (language == eng)
+        {
+            Print("Have a nice game!");
+        }
+        else if (language == rus)
+        {
+            Print("Хорошей игры!");
+        }
     }
     else
     {
-        Print("Введено слово с неверным кол-вом символов или введено неверное значение");
+        if (language == eng)
+        {
+            Print("A word has been entered with an incorrect number of characters or an incorrect value has been entered");
+        }
+        else if (language == rus)
+        {
+            Print("Введено слово с неверным кол-вом символов или введено неверное значение");
+        }
         Environment.Exit(1);
     }
 }
@@ -91,8 +105,14 @@ void Game(string symbols, string? initialWord, string? playerInput, int turn)//�
 {
     if (playerInput.Length == 0)//Проверка ввёл ли игрок слово
     {
-        Print("Вы ничего не ввели :(");
-        Print($"Игра окончена! Победил игрок {turn}!");
+        if (language == eng)
+        {
+            Print($"You have not entered anything :(\nGame over! Player {turn} wins!");
+        }
+        else if (language == rus)
+        {
+            Print($"Вы ничего не ввели :(\nИгра окончена! Победил игрок {turn}!");
+        }
         Environment.Exit(1);
     }
     else //Если игрок ввёл слово
@@ -115,7 +135,14 @@ void ChekTheEnteredWordAgainstTheMainWord(string symbols, string? initialWord, s
         {
             if (letterCounterForMainWord < letterCounterForUserWord)//Если слово введённое игроком не соответствует по символам главному слову, то игра заканчивается. 
             {
-                Print($"Игра окончена! Победил игрок {turn}!");
+                if (language == eng)
+                {
+                    Print($"Game over! Player {turn} wins!");
+                }
+                else if (language == rus)
+                {
+                    Print($"Игра окончена! Победил игрок {turn}!");
+                }
                 Environment.Exit(1);
             }
         }
@@ -177,7 +204,14 @@ void SecondPlayerEnterTheWord(out string? secondPlayerInput)
 ///</summary>
 void FirstTime(object? obj)//Если игрок 1 не успел ввести слово за 15 сек
 {
-    Print("Вы не успели! Победил игрок 2!");
+    if (language == eng)
+    {
+        Print("You didn't have time! Player 2 wins!");
+    }
+    else if (language == rus)
+    {
+        Print("Вы не успели! Победил игрок 2!");
+    }
     Environment.Exit(0);
 }
 ///<summary>
@@ -186,7 +220,14 @@ void FirstTime(object? obj)//Если игрок 1 не успел ввести 
 ///</summary>
 void SecondTime(object? obj)//Если игрок 2 не успел ввести слово за 15 сек
 {
-    Print("Вы не успели! Победил игрок 1!");
+    if (language == eng)
+    {
+        Print("You didn't have time! Player 1 wins!");
+    }
+    else if (language == rus)
+    {
+        Print("Вы не успели! Победил игрок 1!");
+    }
     Environment.Exit(0);
 }
 /// <summary>
@@ -195,8 +236,16 @@ void SecondTime(object? obj)//Если игрок 2 не успел ввести
 /// </summary>
 void FirstPlayerTextColor()
 {
-    Print($"Ваше изначальное слово: {initialWord}");
-    GreenPrint("Игрок 1| Введите ваше слово! У вас 15 сек");
+    if (language == eng)
+    {
+        Print($"Your initial word: {initialWord}");
+        GreenPrint("Player 1| Enter your word! You have 15 seconds");
+    }
+    else if (language == rus)
+    {
+        Print($"Ваше изначальное слово: {initialWord}");
+        GreenPrint("Игрок 1| Введите ваше слово! У вас 15 сек");
+    }
 }
 /// <summary>
 /// E.A.T. 12-August-2024
@@ -204,8 +253,16 @@ void FirstPlayerTextColor()
 /// </summary>
 void SecondPlayerTextColor()
 {
-    Print($"Ваше изначальное слово: {initialWord}");
-    BluePrint("Игрок 2| Введите ваше слово! У вас 15 сек");
+    if (language == eng)
+    {
+        Print($"Your initial word: {initialWord}");
+        BluePrint("Player 2| Enter your word! You have 15 seconds");
+    }
+    else if (language == rus)
+    {
+        Print($"Ваше изначальное слово: {initialWord}");
+        BluePrint("Игрок 1| Введите ваше слово! У вас 15 сек");
+    }
 }
 /// <summary>
 /// E.A.T. 25-August-2024
