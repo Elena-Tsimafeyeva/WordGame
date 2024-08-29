@@ -1,8 +1,17 @@
 ﻿//E.A.T. 15-August-2024
 //The variable "symbols" is declared, which contains symbols for word checking.
-//Declared "word, word1, word2" variables for inputting the main word and players' words.
-//The variable "number" for the timer is declared.
+//Declared "initialWord", "firstPlayerInput", "secondPlayerInput" variables for inputting the main word and players' words.
+//E.A.T. 22-August-2024
+//"minNumberOfSymbolsInTheMainWord", "maxNumberOfSymbolsInTheMainWord"
+//E.A.T. 28-August-2024
+//"language"
+//"languageBool"
+//"eng", "rus"
 string symbols = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyz1234567890!?@#$%^&*()_-=+№;:<>.,/|`~{}[] ";
+//Переменные для смены языка и проверки на ввод лишних символов
+//english = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+//string russian = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
+//string symbolss = "1234567890@#£_&-+()/*':;!?~`|•√π÷×§∆€¥$¢^°={}%©®™✓[]<>,.";
 string? language;
 const string eng = "1";
 const string rus = "2";
@@ -10,7 +19,6 @@ bool languageBool = true;
 string? initialWord, firstPlayerInput, secondPlayerInput;
 const int minNumberOfSymbolsInTheMainWord = 8;
 const int maxNumberOfSymbolsInTheMainWord = 30;
-//int num = 0;
 Language();
 YourChosenLanguage();
 //E.A.T. 15-August-2024
@@ -43,8 +51,14 @@ while (true);
 ///</summary>
 void EnterTheMainWord(out string? initialWord)
 {
-    Print("Добро пожаловать в игру СЛОВА! \nПравила: Суть игры заключается в том, чтобы 2 пользователя поочередно вводили слова, состоящие\nиз букв первоначально указанного слова. Проигрывает тот, кто в свою очередь не вводит слово.");
-    YellowPrint("Введите первое слово для начала игры (от 8 до 30 символов)");
+    if (language == eng) {
+        Print("Welcome to the game of WORDS! \nRules: The essence of the game is for 2 users to alternately enter words consisting\nof the letters of the initially specified word. The one who does not enter the word in turn loses.");
+        YellowPrint("Enter the first word to start the game (from 8 to 30 characters)");
+    } else if (language == rus)
+    {
+        Print("Добро пожаловать в игру СЛОВА! \nПравила: Суть игры заключается в том, чтобы 2 пользователя поочередно вводили слова, состоящие\nиз букв первоначально указанного слова. Проигрывает тот, кто в свою очередь не вводит слово.");
+        YellowPrint("Введите первое слово для начала игры (от 8 до 30 символов)");
+    }
     Read(out initialWord);//Ввод первоначального слова
 }
 ///<summary>
