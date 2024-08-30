@@ -7,11 +7,15 @@
 //"language"
 //"languageBool"
 //"eng", "rus"
-string symbols = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyz1234567890!?@#$%^&*()_-=+№;:<>.,/|`~{}[] ";
+//string symbols = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyz1234567890!?@#$%^&*()_-=+№;:<>.,/|`~{}[] ";
 //Переменные для смены языка и проверки на ввод лишних символов
-//english = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-//string russian = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
-//string symbolss = "1234567890@#£_&-+()/*':;!?~`|•√π÷×§∆€¥$¢^°={}%©®™✓[]<>,.";
+using System.Xml.Linq;
+
+string? mainAlphabet;
+string? secondAlphabet;
+string english = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+string russian = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
+string symbolsAndNumbers = "1234567890@#£_&-+()/*':;!?~`|•√π÷×§∆€¥$¢^°={}%©®™✓[]<>,.";
 string? language;
 const string eng = "1";
 const string rus = "2";
@@ -21,6 +25,7 @@ const int minNumberOfSymbolsInTheMainWord = 8;
 const int maxNumberOfSymbolsInTheMainWord = 30;
 Language();
 YourChosenLanguage();
+Alphabet(out mainAlphabet, out secondAlphabet);
 //E.A.T. 15-August-2024
 //A method is called to enter the initial word.
 //The method to check the initial word is called.
@@ -38,10 +43,12 @@ do
 {
     FirstPlayerTextColor();
     FirstPlayerEnterTheWord(out firstPlayerInput);
-    Game(symbols,initialWord, firstPlayerInput, 2);//Проверка слова введёного игроком 1 по отношению к первоначальному слову
+    Game(mainAlphabet, initialWord, firstPlayerInput, 2, 1);//Проверка слова введёного игроком 1 по отношению к первоначальному слову
+    ChecksForUserInpuOfIncorrectAlphabetOrSymbolsOrNumbers(secondAlphabet, symbolsAndNumbers, initialWord, firstPlayerInput, 2);
     SecondPlayerTextColor();
     SecondPlayerEnterTheWord(out secondPlayerInput);
-    Game(symbols,initialWord, secondPlayerInput, 1);//Проверка слова введёного игроком 2 по отношению к первоначальному слову
+    Game(mainAlphabet, initialWord, secondPlayerInput, 1, 1);//Проверка слова введёного игроком 2 по отношению к первоначальному слову
+    ChecksForUserInpuOfIncorrectAlphabetOrSymbolsOrNumbers(secondAlphabet, symbolsAndNumbers, initialWord, secondPlayerInput, 1);
 }
 while (true);
 ///<summary>
@@ -81,7 +88,7 @@ void CheckTheMainWord(string? initialWord)
 ///If the player has entered a word, the word check starts.
 /// The "ChekTheEnteredWordAgainstTheMainWord" method is used to check the entered words.
 ///</summary>
-void Game(string symbols, string? initialWord, string? playerInput, int turn)//Проверка слова введёного игроком по отношению к первоначальному слову
+void Game(string symbols, string? initialWord, string? playerInput, int turn, int check)//Проверка слова введёного игроком по отношению к первоначальному слову
 {
     if (playerInput.Length == 0)//Проверка ввёл ли игрок слово
     {
@@ -90,7 +97,7 @@ void Game(string symbols, string? initialWord, string? playerInput, int turn)//�
     }
     else //Если игрок ввёл слово
     {
-        ChekTheEnteredWordAgainstTheMainWord(symbols, initialWord, playerInput, turn);
+        ChekTheEnteredWordAgainstTheMainWord(symbols, initialWord, playerInput, turn, check);
     }
 }
 ///<summary>
@@ -98,7 +105,7 @@ void Game(string symbols, string? initialWord, string? playerInput, int turn)//�
 ///Comparing the symbols in the player's word to the main word.
 ///The "ChekingSymbolsInAWord" method is used to determine the number of symbols in the player's word and in the main word.
 ///</summary>
-void ChekTheEnteredWordAgainstTheMainWord(string symbols, string? initialWord, string? playerInput, int turn)
+void ChekTheEnteredWordAgainstTheMainWord(string symbols, string? initialWord, string? playerInput, int turn, int check)
 {
     int letterCounterForMainWord = 0;
     int letterCounterForUserWord = 0;
@@ -108,7 +115,7 @@ void ChekTheEnteredWordAgainstTheMainWord(string symbols, string? initialWord, s
         {
             if (letterCounterForMainWord < letterCounterForUserWord)//Если слово введённое игроком не соответствует по символам главному слову, то игра заканчивается. 
             {
-                YellowPrintLanguage($"Game over! Player {turn} wins!", $"Игра окончена! Победил игрок {turn}!");
+                LossMessagesInTheGameMethod(check, turn);
                 Environment.Exit(1);
             }
         }
@@ -136,6 +143,25 @@ void ChekingSymbolsInAWord(string symbols, string? initialWord, string? playerIn
         {
             letterCounterForUserWord++;
         }
+    }
+}
+void ChecksForUserInpuOfIncorrectAlphabetOrSymbolsOrNumbers(string secondAlphabet, string symbols, string? initialWord, string? playerInput, int turn)
+{
+    Game(secondAlphabet, initialWord, playerInput, turn, 2);
+    Game(symbols, initialWord, playerInput, turn, 3);
+}
+void LossMessagesInTheGameMethod(int check, int turn){
+    switch (check)
+    {
+        case 1:
+            YellowPrintLanguage($"Game over! Player {turn} wins!", $"Игра окончена! Победил игрок {turn}!");
+            break;
+        case 2:
+            YellowPrintLanguage($"You entered letters from the Russian alphabet, not English.\nGame over! Player {turn} wins!", $"Вы ввели буквы из английского алфавита, а не русского.\nИгра окончена! Победил игрок {turn}!");
+            break;
+        case 3:
+            YellowPrintLanguage($"You have entered characters or numbers.\nGame over! Player {turn} wins!", $"Вы ввели символы или цифры.\nИгра окончена! Победил игрок {turn}!");
+            break;
     }
 }
 ///<summary>
@@ -309,4 +335,19 @@ void Language()
 void YourChosenLanguage()
 {
     YellowPrintLanguage("Your selected language: English.", "Ваш выбранный язык: Русский.");
+}
+void Alphabet(out string? mainAlphabet, out string? secondAlphabet)
+{
+    mainAlphabet = null;
+    secondAlphabet = null;
+    if (language == eng)
+    {
+        mainAlphabet = english;
+        secondAlphabet = russian;
+    }
+    else if (language == rus)
+    {
+        mainAlphabet = russian;
+        secondAlphabet = english;
+    }
 }
