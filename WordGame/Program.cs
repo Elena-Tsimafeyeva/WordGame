@@ -7,10 +7,6 @@
 //"language"
 //"languageBool"
 //"eng", "rus"
-//string symbols = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyz1234567890!?@#$%^&*()_-=+№;:<>.,/|`~{}[] ";
-//Переменные для смены языка и проверки на ввод лишних символов
-using System.Xml.Linq;
-
 string? mainAlphabet;
 string? secondAlphabet;
 string english = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -30,7 +26,6 @@ Alphabet(out mainAlphabet, out secondAlphabet);
 //A method is called to enter the initial word.
 //The method to check the initial word is called.
 EnterTheMainWord(out initialWord);//Ввод первоначального слова
-CheckTheMainWord(initialWord);//Проверка первоначального слова
 //E.A.T. 15-August-2024
 //The do-While loop is where the game itself takes place.
 //The "FirstPlayerTextColor" method is called to change the text color for the first player.
@@ -61,6 +56,39 @@ void EnterTheMainWord(out string? initialWord)
     PrintLanguage("Welcome to the game of WORDS! \nRules: The essence of the game is for 2 users to alternately enter words consisting\nof the letters of the initially specified word. The one who does not enter the word in turn loses.", "Добро пожаловать в игру СЛОВА! \nПравила: Суть игры заключается в том, чтобы 2 пользователя поочередно вводили слова, состоящие\nиз букв первоначально указанного слова. Проигрывает тот, кто в свою очередь не вводит слово.");
     YellowPrintLanguage("Enter the first word to start the game (from 8 to 30 characters)", "Введите первое слово для начала игры (от 8 до 30 символов)");
     Read(out initialWord);//Ввод первоначального слова
+    CompareThMainWordWithTheSelectedSlphabet(initialWord);//Проверка первоначального слова на верные символы
+    CheckTheMainWord(initialWord);//Проверка первоначального слова на кол-во символов
+}
+void CompareThMainWordWithTheSelectedSlphabet(string initialWord)
+{
+    CheckingTheMainWordForAlphabetsAndSymbolsAndNumbers(secondAlphabet, initialWord, 1);
+    CheckingTheMainWordForAlphabetsAndSymbolsAndNumbers(symbolsAndNumbers, initialWord, 2);
+}
+void CheckingTheMainWordForAlphabetsAndSymbolsAndNumbers(string symbols, string initialWord, int check)
+{
+    for(int i = 0; i < symbols.Length; i++)
+    {
+        for (int j = 0; j < initialWord.Length; j++)
+        {
+            if (symbols[i] == initialWord[j])
+            {
+                MessageAboutEnteringIncorrectLettersOfTheAlphabetAndSymbols(check);
+                Environment.Exit(1);
+            }
+        }
+    }
+}
+void MessageAboutEnteringIncorrectLettersOfTheAlphabetAndSymbols(int check)
+{
+    switch (check)
+    {
+        case 1:
+            YellowPrintLanguage("When entering the main word, you used letters of the Russian alphabet, not English.", "При вводе главного слова вы использовали буквы английского алфавита, а не русского.");
+            break;
+        case 2:
+            YellowPrintLanguage("You used symbols or numbers when entering the main word.", "При вводе главного слова вы использовали символы или цифры.");
+            break;
+    }
 }
 ///<summary>
 ///E.A.T. 15-August-2024
