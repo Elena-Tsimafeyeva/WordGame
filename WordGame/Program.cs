@@ -1,12 +1,15 @@
 ﻿//E.A.T. 15-August-2024
-//The variable "symbols" is declared, which contains symbols for word checking.
 //Declared "initialWord", "firstPlayerInput", "secondPlayerInput" variables for inputting the main word and players' words.
 //E.A.T. 22-August-2024
-//"minNumberOfSymbolsInTheMainWord", "maxNumberOfSymbolsInTheMainWord"
+//Constants "minNumberOfSymbolsInTheMainWord" and "maxNumberOfSymbolsInTheMainWord"to check the length of the main word.
 //E.A.T. 28-August-2024
-//"language"
-//"languageBool"
-//"eng", "rus"
+//Variable "language" to select the language.
+//Variable "languageBool" for the for-while loop. As long as "languageBool=true",
+//the loop will continue. After selecting 1 or 2, "languageBool" will be false.
+//Constants "eng" and "rus" for choosing a language.
+//E.A.T. 31-August-2024
+//Variables "mainAlphabet" and "secondAlphabet" for selecting the main and second languages.
+//The variables "english", "russian" contain two alphabets, and the variable "symbolsAndNumbers" contains symbols and numbers.
 string? mainAlphabet;
 string? secondAlphabet;
 string english = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -19,21 +22,25 @@ bool languageBool = true;
 string? initialWord, firstPlayerInput, secondPlayerInput;
 const int minNumberOfSymbolsInTheMainWord = 8;
 const int maxNumberOfSymbolsInTheMainWord = 30;
-Language();
-YourChosenLanguage();
-Alphabet(out mainAlphabet, out secondAlphabet);
+//E.A.T. 02-September-2024
+//Selecting and installing a language.
+//Displays the selected language.
+//Definition of main and second language.
+SelectingALanguageAnSettingTheMainAndSecondAlphabets();
 //E.A.T. 15-August-2024
 //A method is called to enter the initial word.
-//The method to check the initial word is called.
+//Checking the main word.
 EnterTheMainWord(out initialWord);//Ввод первоначального слова
 //E.A.T. 15-August-2024
 //The do-While loop is where the game itself takes place.
 //The "FirstPlayerTextColor" method is called to change the text color for the first player.
 //The "FirstPlayerEnterTheWord" method is called for the first player to enter a word.
 //Called the "Game" method to check the entered word of the first player for compliance with the rules of the game.
+//Checks for user input of incorrect alphabet letters, symbols, or numbers.
 //Called the "SecondPlayerTextColor" method to change the color of the text for the second player.
 //Called the "SecondPlayerEnterTheWord" method for inputting a word by the second player.
 //The "Game" method is called to check the word entered by the second player for compliance with the game rules.
+//Checks for user input of incorrect alphabet letters, symbols, or numbers.
 do
 {
     FirstPlayerTextColor();
@@ -59,11 +66,19 @@ void EnterTheMainWord(out string? initialWord)
     CompareThMainWordWithTheSelectedSlphabet(initialWord);//Проверка первоначального слова на верные символы
     CheckTheMainWord(initialWord);//Проверка первоначального слова на кол-во символов
 }
+///<summary>
+///E.A.T. 02-September-2024
+///Compare the main word with the selected alphabet or symbols and numbers.
+///</summary>
 void CompareThMainWordWithTheSelectedSlphabet(string initialWord)
 {
     CheckingTheMainWordForAlphabetsAndSymbolsAndNumbers(secondAlphabet, initialWord, 1);
     CheckingTheMainWordForAlphabetsAndSymbolsAndNumbers(symbolsAndNumbers, initialWord, 2);
 }
+///<summary>
+///E.A.T. 02-September-2024
+///Checking the base word for alphabets, symbols and numbers
+///</summary>
 void CheckingTheMainWordForAlphabetsAndSymbolsAndNumbers(string symbols, string initialWord, int check)
 {
     for(int i = 0; i < symbols.Length; i++)
@@ -78,6 +93,10 @@ void CheckingTheMainWordForAlphabetsAndSymbolsAndNumbers(string symbols, string 
         }
     }
 }
+///<summary>
+///E.A.T. 02-September-2024
+///Messages about entering incorrect letters or symbols and numbers.
+///</summary>
 void MessageAboutEnteringIncorrectLettersOfTheAlphabetAndSymbols(int check)
 {
     switch (check)
@@ -143,7 +162,7 @@ void ChekTheEnteredWordAgainstTheMainWord(string symbols, string? initialWord, s
         {
             if (letterCounterForMainWord < letterCounterForUserWord)//Если слово введённое игроком не соответствует по символам главному слову, то игра заканчивается. 
             {
-                LossMessagesInTheGameMethod(check, turn);
+                ErrorMessagesInTheGameMethod(check, turn);
                 Environment.Exit(1);
             }
         }
@@ -173,12 +192,20 @@ void ChekingSymbolsInAWord(string symbols, string? initialWord, string? playerIn
         }
     }
 }
+///<summary>
+///E.A.T. 31-August-2024
+///Checks for user input of incorrect alphabet letters, symbols, or numbers.
+///</summary>
 void ChecksForUserInpuOfIncorrectAlphabetOrSymbolsOrNumbers(string secondAlphabet, string symbols, string? initialWord, string? playerInput, int turn)
 {
     Game(secondAlphabet, initialWord, playerInput, turn, 2);
     Game(symbols, initialWord, playerInput, turn, 3);
 }
-void LossMessagesInTheGameMethod(int check, int turn){
+///<summary>
+///E.A.T. 31-August-2024
+///Error messages in method "Game".
+///</summary>
+void ErrorMessagesInTheGameMethod(int check, int turn){
     switch (check)
     {
         case 1:
@@ -262,6 +289,10 @@ void Print(string text)
 {
     Console.WriteLine(text);
 }
+///<summary>
+///E.A.T. 30-August-2024
+///Output English or Russian text.
+///</summary>
 void PrintLanguage(string engText, string rusText)
 {
     if (language == eng)
@@ -273,16 +304,20 @@ void PrintLanguage(string engText, string rusText)
         Console.WriteLine(rusText);
     }
 }
-/// <summary>
-/// E.A.T. 25-August-2024
-/// Output yellow text.
-/// </summary>
+///<summary>
+///E.A.T. 25-August-2024
+///Output yellow text.
+///</summary>
 void YellowPrint(string text)
 {
     Console.ForegroundColor = ConsoleColor.Yellow;
     Console.WriteLine(text);
     Console.ResetColor();
 }
+///<summary>
+///E.A.T. 30-August-2024
+///Display English or Russian text in yellow.
+///</summary>
 void YellowPrintLanguage(string engText, string rusText)
 {
     if (language == eng)
@@ -294,16 +329,20 @@ void YellowPrintLanguage(string engText, string rusText)
         YellowPrint(rusText);
     }
 }
-/// <summary>
-/// E.A.T. 25-August-2024
-/// Output green text.
-/// </summary>
+///<summary>
+///E.A.T. 25-August-2024
+///Output green text.
+///</summary>
 void GreenPrint(string text)
 {
     Console.ForegroundColor = ConsoleColor.Green;
     Console.WriteLine(text);
     Console.ResetColor();
 }
+///<summary>
+///E.A.T. 30-August-2024
+///Display English or Russian text in green.
+///</summary>
 void GreenPrintLanguage(string engText, string rusText)
 {
     if (language == eng)
@@ -315,16 +354,20 @@ void GreenPrintLanguage(string engText, string rusText)
         GreenPrint(rusText);
     }
 }
-/// <summary>
-/// E.A.T. 25-August-2024
-/// Output blue text.
-/// </summary>
+///<summary>
+///E.A.T. 25-August-2024
+///Output blue text.
+///</summary>
 void BluePrint(string text)
 {
     Console.ForegroundColor = ConsoleColor.Blue;
     Console.WriteLine(text);
     Console.ResetColor();
 }
+///<summary>
+///E.A.T. 30-August-2024
+///Display English or Russian text in blue.
+///</summary>
 void BluePrintLanguage(string engText, string rusText)
 {
     if (language == eng)
@@ -336,14 +379,19 @@ void BluePrintLanguage(string engText, string rusText)
         BluePrint(rusText);
     }
 }
-/// <summary>
-/// E.A.T. 26-August-2024
-/// Entering a word.
-/// </summary>
+///<summary>
+///E.A.T. 26-August-2024
+///Entering a word.
+///</summary>
 void Read(out string? word)
 {
     word = Console.ReadLine();
 }
+///<summary>
+///E.A.T. 28-August-2024
+///Until the language is selected, "LanguageBool" will be equal to "true".
+///After selecting the language, "LanguageBool" will be equal to "false" and the for-while loop will end.
+///</summary>
 void LanguageBool()
 {
     if (language == eng || language == rus)
@@ -351,6 +399,10 @@ void LanguageBool()
         languageBool = false;
     }
 }
+///<summary>
+///E.A.T. 28-August-2024
+///Selecting and installing a language.
+///</summary>
 void Language()
 {
     do
@@ -360,10 +412,18 @@ void Language()
         LanguageBool();
     } while (languageBool == true);
 }
+///<summary>
+///E.A.T. 28-August-2024
+///Displays the selected language.
+///</summary>
 void YourChosenLanguage()
 {
     YellowPrintLanguage("Your selected language: English.", "Ваш выбранный язык: Русский.");
 }
+///<summary>
+///E.A.T. 31-August-2024
+///Setting the main and second languages ​​depending on the value of the "language" variable.
+///</summary>
 void Alphabet(out string? mainAlphabet, out string? secondAlphabet)
 {
     mainAlphabet = null;
@@ -378,4 +438,16 @@ void Alphabet(out string? mainAlphabet, out string? secondAlphabet)
         mainAlphabet = russian;
         secondAlphabet = english;
     }
+}
+///<summary>
+///E.A.T. 02-September-2024
+///Selecting and installing a language.
+///Displays the selected language.
+///Definition of main and second language.
+///</summary>
+void SelectingALanguageAnSettingTheMainAndSecondAlphabets()
+{
+    Language();
+    YourChosenLanguage();
+    Alphabet(out mainAlphabet, out secondAlphabet);
 }
