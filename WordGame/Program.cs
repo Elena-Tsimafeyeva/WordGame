@@ -277,7 +277,7 @@ void SecondTime(object? obj)//Если игрок 2 не успел ввести
 void FirstPlayerTextColor()
 {
     PrintLanguage($"Your initial word: {initialWord}", $"Ваше изначальное слово: {initialWord}");
-    GreenPrintLanguage("Player 1| Enter your word! You have 15 seconds", "Игрок 1| Введите ваше слово! У вас 15 сек");
+    GreenPrintLanguage($"Player 1 | {firstName} | Enter your word! You have 15 seconds", $"Игрок 1 | {firstName} | Введите ваше слово! У вас 15 сек");
 }
 /// <summary>
 /// E.A.T. 12-August-2024
@@ -286,7 +286,7 @@ void FirstPlayerTextColor()
 void SecondPlayerTextColor()
 {
     PrintLanguage($"Your initial word: {initialWord}", $"Ваше изначальное слово: {initialWord}");
-    BluePrintLanguage("Player 2| Enter your word! You have 15 seconds", "Игрок 2| Введите ваше слово! У вас 15 сек");
+    BluePrintLanguage($"Player 2 | {secondName} | Enter your word! You have 15 seconds", $"Игрок 2 | {secondName} | Введите ваше слово! У вас 15 сек");
 }
 /// <summary>
 /// E.A.T. 25-August-2024
