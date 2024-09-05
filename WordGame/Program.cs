@@ -10,8 +10,12 @@
 //E.A.T. 31-August-2024
 //Variables "mainAlphabet" and "secondAlphabet" for selecting the main and second languages.
 //The variables "english", "russian" contain two alphabets, and the variable "symbolsAndNumbers" contains symbols and numbers.
+//E.A.T. 05-September-2024
+//Variables "firstName" and "secondName" are needed to enter user names.
 string? mainAlphabet;
 string? secondAlphabet;
+string? firstName = "";
+string? secondName = "";
 string english = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 string russian = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
 string symbolsAndNumbers = "1234567890@#£_&-+()/*':;!?~`|•√π÷×§∆€¥$¢^°={}%©®™✓[]<>,.";
@@ -27,6 +31,9 @@ const int maxNumberOfSymbolsInTheMainWord = 30;
 //Displays the selected language.
 //Definition of main and second language.
 SelectingALanguageAndSettingAlphabets();
+//E.A.T. 05-September-2024
+//Entering user names.
+PlayerNames(out firstName, out secondName);
 //E.A.T. 15-August-2024
 //A method is called to enter the initial word.
 //Checking the main word.
@@ -450,4 +457,35 @@ void SelectingALanguageAndSettingAlphabets()
     Language();
     YourChosenLanguage();
     Alphabet(out mainAlphabet, out secondAlphabet);
+}
+///<summary>
+///E.A.T. 05-September-2024
+///Entering user names.
+///</summary>
+void PlayerNames(out string? firstName, out string? secondName) {
+    YellowPrintLanguage("Players, enter your names!", "Игроки, введите ваши имена!");
+    GreenPrintLanguage("Player 1, enter your name!", "Игрок 1, введите ваше имя!");
+    NameInput(out firstName);
+    BluePrintLanguage("Player 2, enter your name!", "Игрок 2, введите ваше имя!");
+    NameInput(out secondName);
+}
+///<summary>
+///E.A.T. 05-September-2024
+///Name input and checking.
+///</summary>
+void NameInput(out string? name)
+{
+    bool nameBool = true;
+    do
+    {
+        Read(out name);
+        if (name != "")
+        {
+            nameBool = false;
+        }
+        else
+        {
+            PrintLanguage("Enter your name!", "Введите ваше имя!");
+        }
+    } while (nameBool == true);
 }
