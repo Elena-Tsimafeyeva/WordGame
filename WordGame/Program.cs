@@ -26,7 +26,7 @@ const int maxNumberOfSymbolsInTheMainWord = 30;
 //Selecting and installing a language.
 //Displays the selected language.
 //Definition of main and second language.
-SelectingALanguageAnSettingTheMainAndSecondAlphabets();
+SelectingALanguageAndSettingAlphabets();
 //E.A.T. 15-August-2024
 //A method is called to enter the initial word.
 //Checking the main word.
@@ -46,11 +46,11 @@ do
     FirstPlayerTextColor();
     FirstPlayerEnterTheWord(out firstPlayerInput);
     Game(mainAlphabet, initialWord, firstPlayerInput, 2, 1);//Проверка слова введёного игроком 1 по отношению к первоначальному слову
-    ChecksForUserInpuOfIncorrectAlphabetOrSymbolsOrNumbers(secondAlphabet, symbolsAndNumbers, initialWord, firstPlayerInput, 2);
+    CheckingForIncorrectSymbolsInTheUsersWord(secondAlphabet, symbolsAndNumbers, initialWord, firstPlayerInput, 2);
     SecondPlayerTextColor();
     SecondPlayerEnterTheWord(out secondPlayerInput);
     Game(mainAlphabet, initialWord, secondPlayerInput, 1, 1);//Проверка слова введёного игроком 2 по отношению к первоначальному слову
-    ChecksForUserInpuOfIncorrectAlphabetOrSymbolsOrNumbers(secondAlphabet, symbolsAndNumbers, initialWord, secondPlayerInput, 1);
+    CheckingForIncorrectSymbolsInTheUsersWord(secondAlphabet, symbolsAndNumbers, initialWord, secondPlayerInput, 1);
 }
 while (true);
 ///<summary>
@@ -63,23 +63,23 @@ void EnterTheMainWord(out string? initialWord)
     PrintLanguage("Welcome to the game of WORDS! \nRules: The essence of the game is for 2 users to alternately enter words consisting\nof the letters of the initially specified word. The one who does not enter the word in turn loses.", "Добро пожаловать в игру СЛОВА! \nПравила: Суть игры заключается в том, чтобы 2 пользователя поочередно вводили слова, состоящие\nиз букв первоначально указанного слова. Проигрывает тот, кто в свою очередь не вводит слово.");
     YellowPrintLanguage("Enter the first word to start the game (from 8 to 30 characters)", "Введите первое слово для начала игры (от 8 до 30 символов)");
     Read(out initialWord);//Ввод первоначального слова
-    CompareThMainWordWithTheSelectedSlphabet(initialWord);//Проверка первоначального слова на верные символы
+    CheckingForIncorrectSymbolsInTheMainWord(initialWord);//Проверка первоначального слова на верные символы
     CheckTheMainWord(initialWord);//Проверка первоначального слова на кол-во символов
 }
 ///<summary>
 ///E.A.T. 02-September-2024
 ///Compare the main word with the selected alphabet or symbols and numbers.
 ///</summary>
-void CompareThMainWordWithTheSelectedSlphabet(string initialWord)
+void CheckingForIncorrectSymbolsInTheMainWord(string initialWord)
 {
-    CheckingTheMainWordForAlphabetsAndSymbolsAndNumbers(secondAlphabet, initialWord, 1);
-    CheckingTheMainWordForAlphabetsAndSymbolsAndNumbers(symbolsAndNumbers, initialWord, 2);
+    CheckingTheSymbolsOfTheMainWord(secondAlphabet, initialWord, 1);
+    CheckingTheSymbolsOfTheMainWord(symbolsAndNumbers, initialWord, 2);
 }
 ///<summary>
 ///E.A.T. 02-September-2024
 ///Checking the base word for alphabets, symbols and numbers
 ///</summary>
-void CheckingTheMainWordForAlphabetsAndSymbolsAndNumbers(string symbols, string initialWord, int check)
+void CheckingTheSymbolsOfTheMainWord(string symbols, string initialWord, int check)
 {
     for(int i = 0; i < symbols.Length; i++)
     {
@@ -87,7 +87,7 @@ void CheckingTheMainWordForAlphabetsAndSymbolsAndNumbers(string symbols, string 
         {
             if (symbols[i] == initialWord[j])
             {
-                MessageAboutEnteringIncorrectLettersOfTheAlphabetAndSymbols(check);
+                ErrorMessageToCheckTheMainWord(check);
                 Environment.Exit(1);
             }
         }
@@ -97,7 +97,7 @@ void CheckingTheMainWordForAlphabetsAndSymbolsAndNumbers(string symbols, string 
 ///E.A.T. 02-September-2024
 ///Messages about entering incorrect letters or symbols and numbers.
 ///</summary>
-void MessageAboutEnteringIncorrectLettersOfTheAlphabetAndSymbols(int check)
+void ErrorMessageToCheckTheMainWord(int check)
 {
     switch (check)
     {
@@ -196,7 +196,7 @@ void ChekingSymbolsInAWord(string symbols, string? initialWord, string? playerIn
 ///E.A.T. 31-August-2024
 ///Checks for user input of incorrect alphabet letters, symbols, or numbers.
 ///</summary>
-void ChecksForUserInpuOfIncorrectAlphabetOrSymbolsOrNumbers(string secondAlphabet, string symbols, string? initialWord, string? playerInput, int turn)
+void CheckingForIncorrectSymbolsInTheUsersWord(string secondAlphabet, string symbols, string? initialWord, string? playerInput, int turn)
 {
     Game(secondAlphabet, initialWord, playerInput, turn, 2);
     Game(symbols, initialWord, playerInput, turn, 3);
@@ -445,7 +445,7 @@ void Alphabet(out string? mainAlphabet, out string? secondAlphabet)
 ///Displays the selected language.
 ///Definition of main and second language.
 ///</summary>
-void SelectingALanguageAnSettingTheMainAndSecondAlphabets()
+void SelectingALanguageAndSettingAlphabets()
 {
     Language();
     YourChosenLanguage();
