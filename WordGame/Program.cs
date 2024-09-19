@@ -23,9 +23,16 @@ string? language;
 const string eng = "1";
 const string rus = "2";
 bool languageBool = true;
-string? initialWord, firstPlayerInput, secondPlayerInput;
+//E.A.T. 19-September-2024
+//Updating variables initialWord, firstPlayerInput, secondPlayerInput.
+string? initialWord;
+string firstPlayerInput = "";
+string secondPlayerInput = "";
 const int minNumberOfSymbolsInTheMainWord = 8;
 const int maxNumberOfSymbolsInTheMainWord = 30;
+//E.A.T. 19-September-2024
+//Variable to continue or end the game.
+bool game = true;
 //E.A.T. 02-September-2024
 //Selecting and installing a language.
 //Displays the selected language.
@@ -48,6 +55,8 @@ EnterTheMainWord(out initialWord);//Ввод первоначального сл
 //Called the "SecondPlayerEnterTheWord" method for inputting a word by the second player.
 //The "Game" method is called to check the word entered by the second player for compliance with the game rules.
 //Checks for user input of incorrect alphabet letters, symbols, or numbers.
+//E.A.T. 19-September-2024
+//The do-while loop will exit if the game varible is false.
 do
 {
     FirstPlayerTextColor();
@@ -59,7 +68,7 @@ do
     Game(mainAlphabet, initialWord, secondPlayerInput, 1, 1);//Проверка слова введёного игроком 2 по отношению к первоначальному слову
     CheckingForIncorrectSymbolsInTheUsersWord(secondAlphabet, symbolsAndNumbers, initialWord, secondPlayerInput, 1);
 }
-while (true);
+while (game == true);
 ///<summary>
 ///E.A.T. 15-August-2024
 ///Display the rules on the screen.
@@ -67,7 +76,7 @@ while (true);
 ///</summary>
 void EnterTheMainWord(out string? initialWord)
 {
-    PrintLanguage("Welcome to the game of WORDS! \nRules: The essence of the game is for 2 users to alternately enter words consisting\nof the letters of the initially specified word. The one who does not enter the word in turn loses.", "Добро пожаловать в игру СЛОВА! \nПравила: Суть игры заключается в том, чтобы 2 пользователя поочередно вводили слова, состоящие\nиз букв первоначально указанного слова. Проигрывает тот, кто в свою очередь не вводит слово.");
+    PrintLanguage("Rules: The essence of the game is for 2 users to alternately enter words consisting\nof the letters of the initially specified word. The one who does not enter the word in turn loses.", "Правила: Суть игры заключается в том, чтобы 2 пользователя поочередно вводили слова, состоящие\nиз букв первоначально указанного слова. Проигрывает тот, кто в свою очередь не вводит слово.");
     YellowPrintLanguage("Enter the first word to start the game (from 8 to 30 characters)", "Введите первое слово для начала игры (от 8 до 30 символов)");
     Read(out initialWord);//Ввод первоначального слова
     CheckingForIncorrectSymbolsInTheMainWord(initialWord);//Проверка первоначального слова на верные символы
@@ -95,7 +104,7 @@ void CheckingTheSymbolsOfTheMainWord(string symbols, string initialWord, int che
             if (symbols[i] == initialWord[j])
             {
                 ErrorMessageToCheckTheMainWord(check);
-                Environment.Exit(1);
+                End(out game);
             }
         }
     }
@@ -133,7 +142,7 @@ void CheckTheMainWord(string? initialWord)
     else
     {
         PrintLanguage("A word has been entered with an incorrect number of characters or an incorrect value has been entered", "Введено слово с неверным кол-вом символов или введено неверное значение");
-        Environment.Exit(1);
+        End(out game);
     }
 }
 ///<summary>
@@ -147,7 +156,7 @@ void Game(string symbols, string? initialWord, string? playerInput, int turn, in
     if (playerInput.Length == 0)//Проверка ввёл ли игрок слово
     {
         YellowPrintLanguage($"You have not entered anything :(\nGame over! Player {turn} wins!", $"Вы ничего не ввели :(\nИгра окончена! Победил игрок {turn}!");
-        Environment.Exit(1);
+        End(out game);
     }
     else //Если игрок ввёл слово
     {
@@ -170,7 +179,7 @@ void ChekTheEnteredWordAgainstTheMainWord(string symbols, string? initialWord, s
             if (letterCounterForMainWord < letterCounterForUserWord)//Если слово введённое игроком не соответствует по символам главному слову, то игра заканчивается. 
             {
                 ErrorMessagesInTheGameMethod(check, turn);
-                Environment.Exit(1);
+                End(out game);
             }
         }
         ChekingSymbolsInAWord(symbols, initialWord, playerInput, i, out letterCounterForMainWord, out letterCounterForUserWord);
@@ -259,7 +268,7 @@ void SecondPlayerEnterTheWord(out string? secondPlayerInput)
 void FirstTime(object? obj)//Если игрок 1 не успел ввести слово за 15 сек
 {
     YellowPrintLanguage("You didn't have time! Player 2 wins!", "Вы не успели! Победил игрок 2!");
-    Environment.Exit(0);
+    End(out game);
 }
 ///<summary>
 ///E.A.T. 15-August-2024
@@ -268,7 +277,7 @@ void FirstTime(object? obj)//Если игрок 1 не успел ввести 
 void SecondTime(object? obj)//Если игрок 2 не успел ввести слово за 15 сек
 {
     YellowPrintLanguage("You didn't have time! Player 1 wins!", "Вы не успели! Победил игрок 1!");
-    Environment.Exit(0);
+    End(out game);
 }
 /// <summary>
 /// E.A.T. 12-August-2024
@@ -461,6 +470,8 @@ void SelectingALanguageAndSettingAlphabets()
 ///<summary>
 ///E.A.T. 05-September-2024
 ///Entering user names.
+///E.A.T. 19-September-2024
+///Greeting added.
 ///</summary>
 void PlayerNames(out string? firstName, out string? secondName) {
     YellowPrintLanguage("Players, enter your names!", "Игроки, введите ваши имена!");
@@ -468,6 +479,7 @@ void PlayerNames(out string? firstName, out string? secondName) {
     NameInput(out firstName);
     BluePrintLanguage("Player 2, enter your name!", "Игрок 2, введите ваше имя!");
     NameInput(out secondName);
+    YellowPrintLanguage($"{firstName} and {secondName}, welcome to the game WORDS!", $"{firstName} и {secondName}, добро пожаловать в игру СЛОВА!");
 }
 ///<summary>
 ///E.A.T. 05-September-2024
@@ -488,4 +500,31 @@ void NameInput(out string? name)
             PrintLanguage("Enter your name!", "Введите ваше имя!");
         }
     } while (nameBool == true);
+}
+///<summary>
+///E.A.T. 19-September-2024
+///If the game ends, users can choose whether they want to play another round or end the game.
+///</summary>
+void End(out bool game)
+{
+    PrintLanguage("Do you want to play again?\n1 - Yes, 2 - No", "Вы хотите сыграть ещё раз?\n1 - Да, 2 - Нет");
+    game = false;
+    bool endBool = true;
+    do
+    {
+        string? answer;
+        Read(out answer);
+        if (answer == "1")
+        {
+            PrintLanguage("Next round!", "Следующий раунд!");
+            game = true;
+            endBool = false;
+            EnterTheMainWord(out initialWord);
+        }
+        else if (answer == "2")
+        {
+            PrintLanguage("Game over!", "Игра завершена!");
+            Environment.Exit(0);
+        }
+    } while (endBool == true);
 }
