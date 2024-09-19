@@ -530,7 +530,7 @@ void End(out bool game)
 }
 ///<summary>
 ///E.A.T. 19-September-2024
-///
+///The method accepts commands during the game.
 ///</summary>
 
 void ListOfCommands(out string? commandOrWord){
