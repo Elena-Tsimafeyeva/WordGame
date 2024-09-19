@@ -19,7 +19,9 @@ string? secondName = "";
 string english = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 string russian = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
 string symbolsAndNumbers = "1234567890@#£_&-+()/*':;!?~`|•√π÷×§∆€¥$¢^°={}%©®™✓[]<>,.";
-string? language;
+//E.A.T. 20-September-2024
+//Updating variables language.
+string? language = "";
 const string eng = "1";
 const string rus = "2";
 bool languageBool = true;
@@ -73,12 +75,14 @@ while (game == true);
 ///E.A.T. 15-August-2024
 ///Display the rules on the screen.
 ///Input the main word.
+///E.A.T. 20-September-2024
+///While you are typing your main word, you can enter a command.
 ///</summary>
 void EnterTheMainWord(out string? initialWord)
 {
     PrintLanguage("Rules: The essence of the game is for 2 users to alternately enter words consisting\nof the letters of the initially specified word. The one who does not enter the word in turn loses.", "Правила: Суть игры заключается в том, чтобы 2 пользователя поочередно вводили слова, состоящие\nиз букв первоначально указанного слова. Проигрывает тот, кто в свою очередь не вводит слово.");
     YellowPrintLanguage("Enter the first word to start the game (from 8 to 30 characters)", "Введите первое слово для начала игры (от 8 до 30 символов)");
-    Read(out initialWord);//Ввод первоначального слова
+    ListOfCommands(out initialWord);//Ввод первоначального слова
     CheckingForIncorrectSymbolsInTheMainWord(initialWord);//Проверка первоначального слова на верные символы
     CheckTheMainWord(initialWord);//Проверка первоначального слова на кол-во символов
 }
@@ -240,6 +244,8 @@ void ErrorMessagesInTheGameMethod(int check, int turn){
 ///A 15-second timer is started for the first player.
 ///If the first player does not have time to enter the word, the timer will call the "FirstTime" method to end the game.
 ///If the first player manages to enter the word in 15 seconds, the timer will turn off.
+///E.A.T. 20-September-2024
+///
 ///</summary>
 void FirstPlayerEnterTheWord(out string? firstPlayerInput)
 {
@@ -253,6 +259,8 @@ void FirstPlayerEnterTheWord(out string? firstPlayerInput)
 ///A timer for 15 seconds is started for the second player.
 ///If the second player does not have time to enter the word, the timer will call the "SecondTime" method to end the game.
 ///If the second player manages to enter the word in 15 seconds, the timer will turn off.
+///E.A.T. 20-September-2024
+///
 ///</summary>
 void SecondPlayerEnterTheWord(out string? secondPlayerInput)
 {
@@ -484,13 +492,15 @@ void PlayerNames(out string? firstName, out string? secondName) {
 ///<summary>
 ///E.A.T. 05-September-2024
 ///Name input and checking.
+///E.A.T. 20-September-2024
+///You can enter commands while entering names. 
 ///</summary>
 void NameInput(out string? name)
 {
     bool nameBool = true;
     do
     {
-        Read(out name);
+        ListOfCommands(out name);
         if (name != "")
         {
             nameBool = false;
@@ -504,6 +514,8 @@ void NameInput(out string? name)
 ///<summary>
 ///E.A.T. 19-September-2024
 ///If the game ends, users can choose whether they want to play another round or end the game.
+///E.A.T. 20-September-2024
+///You can enter commands while you enter your selection.
 ///</summary>
 void End(out bool game)
 {
@@ -513,7 +525,7 @@ void End(out bool game)
     do
     {
         string? answer;
-        Read(out answer);
+        ListOfCommands(out answer);
         if (answer == "1")
         {
             YellowPrintLanguage("Next round!", "Следующий раунд!");
@@ -543,9 +555,35 @@ void ListOfCommands(out string? commandOrWord){
             boolCommands = false;
         }
         else if (listOfCommands.Contains(commandOrWord)){
-            Print("Ok");
-        }else{
+            Commands(commandOrWord);
+        }
+        else{
             boolCommands = false;
         }
     } while (boolCommands == true);
+}
+///<summary>
+///E.A.T. 19-September-2024
+///This method calls the written commands.
+///</summary>
+void Commands(string command)
+{
+    switch (command)
+    {
+        case "/help":
+            PrintLanguage("/help", "/help");
+            break;
+        case "/show-words":
+            PrintLanguage("/show-words", "/show-words");
+            break;
+        case "/score":
+            PrintLanguage("/score", "/score");
+            break;
+        case "/total-score":
+            PrintLanguage("/total-score", "/total-score");
+            break;
+        case "/exit":
+            PrintLanguage("/exit", "/exit");
+            break;
+    }
 }
