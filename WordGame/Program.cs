@@ -516,14 +516,14 @@ void End(out bool game)
         Read(out answer);
         if (answer == "1")
         {
-            PrintLanguage("Next round!", "Следующий раунд!");
+            YellowPrintLanguage("Next round!", "Следующий раунд!");
             game = true;
             endBool = false;
             EnterTheMainWord(out initialWord);
         }
         else if (answer == "2")
         {
-            PrintLanguage("Game over!", "Игра завершена!");
+            YellowPrintLanguage("Game over!", "Игра завершена!");
             Environment.Exit(0);
         }
     } while (endBool == true);
