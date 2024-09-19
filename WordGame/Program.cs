@@ -245,7 +245,7 @@ void FirstPlayerEnterTheWord(out string? firstPlayerInput)
 {
     TimerCallback tm = new TimerCallback(FirstTime); //Таймер на 15 сек
     Timer timer = new Timer(tm, null, 15000, 0);
-    Read(out firstPlayerInput); //Ввод слова игроком 1
+    ListOfCommands(out firstPlayerInput); //Ввод слова игроком 1
     timer.Dispose();//Отключение таймера
 }
 ///<summary>
@@ -258,7 +258,7 @@ void SecondPlayerEnterTheWord(out string? secondPlayerInput)
 {
     TimerCallback tm1 = new TimerCallback(SecondTime); //Таймер на 15 сек
     Timer timer1 = new Timer(tm1, null, 15000, 0);
-    Read(out secondPlayerInput); //Ввод слова игроком 2
+    ListOfCommands(out secondPlayerInput); //Ввод слова игроком 2
     timer1.Dispose();//Отключение таймера
 }
 ///<summary>
@@ -527,4 +527,25 @@ void End(out bool game)
             Environment.Exit(0);
         }
     } while (endBool == true);
+}
+///<summary>
+///E.A.T. 19-September-2024
+///
+///</summary>
+
+void ListOfCommands(out string? commandOrWord){
+    bool boolCommands = true;
+    do
+    {
+        Read(out commandOrWord);
+        List<string> listOfCommands = new List<string>() { "/help", "/show-words", "/score", "/total-score", "/exit" };
+        if (commandOrWord == null) {
+            boolCommands = false;
+        }
+        else if (listOfCommands.Contains(commandOrWord)){
+            Print("Ok");
+        }else{
+            boolCommands = false;
+        }
+    } while (boolCommands == true);
 }
