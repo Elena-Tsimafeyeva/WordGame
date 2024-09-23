@@ -255,6 +255,7 @@ void FirstPlayerEnterTheWord(out string? firstPlayerInput)
     Timer timer = new Timer(tm, null, 15000, 0);
     ListOfCommands(out firstPlayerInput); //Ввод слова игроком 1
     timer.Dispose();//Отключение таймера
+    CheckForWordRepetition(firstPlayerInput, 2);
     RecordingWords(firstPlayerInput);
 }
 ///<summary>
@@ -271,6 +272,7 @@ void SecondPlayerEnterTheWord(out string? secondPlayerInput)
     Timer timer1 = new Timer(tm1, null, 15000, 0);
     ListOfCommands(out secondPlayerInput); //Ввод слова игроком 2
     timer1.Dispose();//Отключение таймера
+    CheckForWordRepetition(secondPlayerInput, 1);
     RecordingWords(secondPlayerInput);
 }
 ///<summary>
@@ -594,6 +596,25 @@ void Commands(string command)
         case "/exit":
             YellowPrintLanguage("You have completed this round!", "Вы завершили этот рауд!");
             break;
+    }
+}
+void CheckForWordRepetition(string? playerWord, int turn)
+{
+    string fileName = "words.json";
+    List<string> words;
+    if (File.Exists(fileName))
+    {
+        string jsonStringFromFile = File.ReadAllText(fileName);
+        words = JsonSerializer.Deserialize<List<string>>(jsonStringFromFile) ?? new List<string>();
+        foreach (var word in words)
+        {
+            if (playerWord == word)
+            {
+                YellowPrintLanguage($"Such a word alredy exists! \nGame over! Player {turn} wins!", $"Такое слово уже есть! \nИгра окончена! Игрок {turn} победил!");
+                RecordingWords(playerWord);
+                End(out game);
+            }
+        }
     }
 }
 ///<summary>
