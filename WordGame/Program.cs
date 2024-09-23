@@ -628,18 +628,21 @@ void ReadingWords()
     if (File.Exists(fileName))
     {
         int turn = 1;
+        string name = firstName;
         string jsonStringFromFile = File.ReadAllText(fileName);
         words = JsonSerializer.Deserialize<List<string>>(jsonStringFromFile) ?? new List<string>();
         foreach (var word in words)
         {
-            Print($"Игрок {turn}: {word}");
+            PrintLanguage($"Player {turn} | {name} |: {word}",$"Игрок {turn} | {name} |: {word}");
             if (turn == 1)
             {
                 turn += 1;
+                name = secondName;
             }
             else if (turn == 2)
             {
                 turn -= 1;
+                name = firstName;
             }
         }
     }
