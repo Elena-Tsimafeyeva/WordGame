@@ -571,7 +571,7 @@ void Commands(string command)
     switch (command)
     {
         case "/help":
-            PrintLanguage("/help", "/help");
+            YellowPrintLanguage("List of commands:\n/help - show the entire list of commands.\n/show-words – show all words entered by both users in the current game.\n/score – show the total game score for current players (extract from file).\n/total-score – show the total score for all players.\n/exit - end of the game (defeat is counted to the player who had to enter\na word at the moment of exiting the application).", "Список команд:\n/help - показать весь список команд.\n/show-words - показать все введенные обоими пользователями слова в текущей игре.\n/score - показать общий счет по играм для текущих игроков (извлечь из файла).\n/total-score - показать общий счет для всех игроков.\n/exit - завершение игры (поражение засчитывается игроку, который на\nмомент выхода из приложения должен был вводить слово).");
             break;
         case "/show-words":
             PrintLanguage("/show-words", "/show-words");
@@ -583,7 +583,34 @@ void Commands(string command)
             PrintLanguage("/total-score", "/total-score");
             break;
         case "/exit":
-            PrintLanguage("/exit", "/exit");
+            YellowPrintLanguage("You have completed this round!", "Вы завершили этот рауд!");
             break;
+    }
+}
+
+///<summary>
+///E.A.T. 20-September-2024
+///Player class for creating a player.
+///The player has a name, number of wins and losses.
+///</summary>
+public class Player
+{
+    public string Name { get; }
+    public int Wins { get; set; }
+    public int Losses { get; set; }
+
+    public Player(string name, int wins, int losses)
+    {
+        Name = name;
+        Wins = wins;
+        Losses = losses;
+    }
+    public void UpdateWins(int updateWins)
+    {
+        Wins = updateWins;
+    }
+    public void UpdateLosses(int updateLosses)
+    {
+        Losses = updateLosses;
     }
 }
