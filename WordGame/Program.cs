@@ -12,6 +12,8 @@
 //The variables "english", "russian" contain two alphabets, and the variable "symbolsAndNumbers" contains symbols and numbers.
 //E.A.T. 05-September-2024
 //Variables "firstName" and "secondName" are needed to enter user names.
+using System.Text.Json;
+
 string? mainAlphabet;
 string? secondAlphabet;
 string? firstName = "";
@@ -253,6 +255,7 @@ void FirstPlayerEnterTheWord(out string? firstPlayerInput)
     Timer timer = new Timer(tm, null, 15000, 0);
     ListOfCommands(out firstPlayerInput); //Ввод слова игроком 1
     timer.Dispose();//Отключение таймера
+    RecordingWords(firstPlayerInput);
 }
 ///<summary>
 ///E.A.T. 15-August-2024
@@ -268,6 +271,7 @@ void SecondPlayerEnterTheWord(out string? secondPlayerInput)
     Timer timer1 = new Timer(tm1, null, 15000, 0);
     ListOfCommands(out secondPlayerInput); //Ввод слова игроком 2
     timer1.Dispose();//Отключение таймера
+    RecordingWords(secondPlayerInput);
 }
 ///<summary>
 ///E.A.T. 15-August-2024
@@ -531,11 +535,13 @@ void End(out bool game)
             YellowPrintLanguage("Next round!", "Следующий раунд!");
             game = true;
             endBool = false;
+            DeleteFile("words.json");
             EnterTheMainWord(out initialWord);
         }
         else if (answer == "2")
         {
             YellowPrintLanguage("Game over!", "Игра завершена!");
+            DeleteFile("words.json");
             Environment.Exit(0);
         }
     } while (endBool == true);
@@ -565,6 +571,8 @@ void ListOfCommands(out string? commandOrWord){
 ///<summary>
 ///E.A.T. 19-September-2024
 ///This method calls the written commands.
+///E.A.T. 23-September-2024
+///show-words displays a list of words.
 ///</summary>
 void Commands(string command)
 {
@@ -574,7 +582,8 @@ void Commands(string command)
             YellowPrintLanguage("List of commands:\n/help - show the entire list of commands.\n/show-words – show all words entered by both users in the current game.\n/score – show the total game score for current players (extract from file).\n/total-score – show the total score for all players.\n/exit - end of the game (defeat is counted to the player who had to enter\na word at the moment of exiting the application).", "Список команд:\n/help - показать весь список команд.\n/show-words - показать все введенные обоими пользователями слова в текущей игре.\n/score - показать общий счет по играм для текущих игроков (извлечь из файла).\n/total-score - показать общий счет для всех игроков.\n/exit - завершение игры (поражение засчитывается игроку, который на\nмомент выхода из приложения должен был вводить слово).");
             break;
         case "/show-words":
-            PrintLanguage("/show-words", "/show-words");
+            PrintLanguage("List of words for this game.", "Список слов за эту игру.");
+            ReadingWords();
             break;
         case "/score":
             PrintLanguage("/score", "/score");
@@ -587,7 +596,69 @@ void Commands(string command)
             break;
     }
 }
-
+///<summary>
+///E.A.T. 23-September-2024
+///Writing words to the file "words.json".
+///</summary>
+void RecordingWords(string? playerWord)
+{
+    string fileName = "words.json";
+    List<string> words;
+    if (File.Exists(fileName))
+    {
+        string jsonStringFromFile = File.ReadAllText(fileName);
+        words = JsonSerializer.Deserialize<List<string>>(jsonStringFromFile) ?? new List<string>();
+    }
+    else
+    {
+        words = new List<string>();
+    }
+    words.Add(new string(playerWord));
+    string jsonString = JsonSerializer.Serialize(words, new JsonSerializerOptions { WriteIndented = true });
+    File.WriteAllText(fileName, jsonString);
+}
+///<summary>
+///E.A.T. 23-September-2024
+///Reading words from the file "words.json".
+///</summary>
+void ReadingWords()
+{
+    string fileName = "words.json";
+    List<string> words;
+    if (File.Exists(fileName))
+    {
+        int turn = 1;
+        string jsonStringFromFile = File.ReadAllText(fileName);
+        words = JsonSerializer.Deserialize<List<string>>(jsonStringFromFile) ?? new List<string>();
+        foreach (var word in words)
+        {
+            Print($"Игрок {turn}: {word}");
+            if (turn == 1)
+            {
+                turn += 1;
+            }
+            else if (turn == 2)
+            {
+                turn -= 1;
+            }
+        }
+    }
+    else
+    {
+        YellowPrintLanguage($"File {fileName} not found!", $"Файл {fileName} не найден!");
+    }
+}
+///<summary>
+///E.A.T. 23-September-2024
+///Delete file.
+///</summary>
+void DeleteFile(string fileName)
+{
+    if (File.Exists(fileName))
+    {
+        File.Delete(fileName);
+    }
+}
 ///<summary>
 ///E.A.T. 20-September-2024
 ///Player class for creating a player.
