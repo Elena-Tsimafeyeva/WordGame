@@ -598,6 +598,10 @@ void Commands(string command)
             break;
     }
 }
+///<summary> 
+///E.A.T. 23-September-2024
+///This is a method to check for word repetition. 
+///</summary>
 void CheckForWordRepetition(string? playerWord, int turn)
 {
     string fileName = "words.json";
