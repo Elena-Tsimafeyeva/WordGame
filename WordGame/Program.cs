@@ -13,6 +13,7 @@
 //E.A.T. 05-September-2024
 //Variables "firstName" and "secondName" are needed to enter user names.
 using System.Text.Json;
+using System.Xml.Linq;
 
 string? mainAlphabet;
 string? secondAlphabet;
@@ -34,6 +35,8 @@ string firstPlayerInput = "";
 string secondPlayerInput = "";
 const int minNumberOfSymbolsInTheMainWord = 8;
 const int maxNumberOfSymbolsInTheMainWord = 30;
+int exitTurn = 0;
+bool gameProcess = false;
 //E.A.T. 19-September-2024
 //Variable to continue or end the game.
 bool game = true;
@@ -63,10 +66,13 @@ EnterTheMainWord(out initialWord);//Ввод первоначального сл
 //The do-while loop will exit if the game varible is false.
 do
 {
+    gameProcess = true;
+    exitTurn = 2;
     FirstPlayerTextColor();
     FirstPlayerEnterTheWord(out firstPlayerInput);
     Game(mainAlphabet, initialWord, firstPlayerInput, 2, 1);//Проверка слова введёного игроком 1 по отношению к первоначальному слову
     CheckingForIncorrectSymbolsInTheUsersWord(secondAlphabet, symbolsAndNumbers, initialWord, firstPlayerInput, 2);
+    exitTurn = 1;
     SecondPlayerTextColor();
     SecondPlayerEnterTheWord(out secondPlayerInput);
     Game(mainAlphabet, initialWord, secondPlayerInput, 1, 1);//Проверка слова введёного игроком 2 по отношению к первоначальному слову
@@ -162,6 +168,7 @@ void Game(string symbols, string? initialWord, string? playerInput, int turn, in
     if (playerInput.Length == 0)//Проверка ввёл ли игрок слово
     {
         YellowPrintLanguage($"You have not entered anything :(\nGame over! Player {turn} wins!", $"Вы ничего не ввели :(\nИгра окончена! Победил игрок {turn}!");
+        WinsAndLosses(turn, firstName, secondName);
         End(out game);
     }
     else //Если игрок ввёл слово
@@ -185,6 +192,7 @@ void ChekTheEnteredWordAgainstTheMainWord(string symbols, string? initialWord, s
             if (letterCounterForMainWord < letterCounterForUserWord)//Если слово введённое игроком не соответствует по символам главному слову, то игра заканчивается. 
             {
                 ErrorMessagesInTheGameMethod(check, turn);
+                WinsAndLosses(turn, firstName, secondName);
                 End(out game);
             }
         }
@@ -282,6 +290,7 @@ void SecondPlayerEnterTheWord(out string? secondPlayerInput)
 void FirstTime(object? obj)//Если игрок 1 не успел ввести слово за 15 сек
 {
     YellowPrintLanguage("You didn't have time! Player 2 wins!", "Вы не успели! Победил игрок 2!");
+    WinsAndLosses(2, firstName, secondName);
     End(out game);
 }
 ///<summary>
@@ -291,6 +300,7 @@ void FirstTime(object? obj)//Если игрок 1 не успел ввести 
 void SecondTime(object? obj)//Если игрок 2 не успел ввести слово за 15 сек
 {
     YellowPrintLanguage("You didn't have time! Player 1 wins!", "Вы не успели! Победил игрок 1!");
+    WinsAndLosses(1, firstName, secondName);
     End(out game);
 }
 /// <summary>
@@ -488,11 +498,12 @@ void SelectingALanguageAndSettingAlphabets()
 ///Greeting added.
 ///</summary>
 void PlayerNames(out string? firstName, out string? secondName) {
+    bool gameProcess = false;
     YellowPrintLanguage("Players, enter your names!", "Игроки, введите ваши имена!");
     GreenPrintLanguage("Player 1, enter your name!", "Игрок 1, введите ваше имя!");
-    NameInput(out firstName);
+    RecordingPlayer(out firstName);
     BluePrintLanguage("Player 2, enter your name!", "Игрок 2, введите ваше имя!");
-    NameInput(out secondName);
+    RecordingPlayer(out secondName);
     YellowPrintLanguage($"{firstName} and {secondName}, welcome to the game WORDS!", $"{firstName} и {secondName}, добро пожаловать в игру СЛОВА!");
 }
 ///<summary>
@@ -525,6 +536,7 @@ void NameInput(out string? name)
 ///</summary>
 void End(out bool game)
 {
+    gameProcess = false;
     PrintLanguage("Do you want to play again?\n1 - Yes, 2 - No", "Вы хотите сыграть ещё раз?\n1 - Да, 2 - Нет");
     game = false;
     bool endBool = true;
@@ -581,7 +593,7 @@ void Commands(string command)
     switch (command)
     {
         case "/help":
-            YellowPrintLanguage("List of commands:\n/help - show the entire list of commands.\n/show-words – show all words entered by both users in the current game.\n/score – show the total game score for current players (extract from file).\n/total-score – show the total score for all players.\n/exit - end of the game (defeat is counted to the player who had to enter\na word at the moment of exiting the application).", "Список команд:\n/help - показать весь список команд.\n/show-words - показать все введенные обоими пользователями слова в текущей игре.\n/score - показать общий счет по играм для текущих игроков (извлечь из файла).\n/total-score - показать общий счет для всех игроков.\n/exit - завершение игры (поражение засчитывается игроку, который на\nмомент выхода из приложения должен был вводить слово).");
+            YellowPrintLanguage("List of commands:\n/help - show the entire list of commands.\n/show-words – show all words entered by both users in the current game.\n/score – show the total game score for current players (extract from file).\n/total-score – show the total score for all players.\n/exit - end of the round (defeat is counted to the player who had to enter\na word at the moment of exiting the round).", "Список команд:\n/help - показать весь список команд.\n/show-words - показать все введенные обоими пользователями слова в текущей игре.\n/score - показать общий счет по играм для текущих игроков (извлечь из файла).\n/total-score - показать общий счет для всех игроков.\n/exit - завершение раунда (поражение засчитывается игроку, который на\nмомент выхода из раунда должен был вводить слово).");
             break;
         case "/show-words":
             PrintLanguage("List of words for this game.", "Список слов за эту игру.");
@@ -589,13 +601,28 @@ void Commands(string command)
             break;
         case "/score":
             PrintLanguage("/score", "/score");
+            ReadingScore(firstName, secondName);
             break;
         case "/total-score":
             PrintLanguage("/total-score", "/total-score");
+            ReadingTotalScore();
             break;
         case "/exit":
-            YellowPrintLanguage("You have completed this round!", "Вы завершили этот рауд!");
+            ExitCommand();
             break;
+    }
+}
+void ExitCommand()
+{
+    if (gameProcess == true)
+    {
+        YellowPrintLanguage("You have completed this round!", "Вы завершили этот рауд!");
+        WinsAndLosses(exitTurn, firstName, secondName);
+        End(out game);
+    }
+    else if (gameProcess == false)
+    {
+        YellowPrintLanguage("You cannot complete the round because it has not started.", "Вы не можете завершить раунд, т.к. он не начат.");
     }
 }
 ///<summary> 
@@ -616,6 +643,7 @@ void CheckForWordRepetition(string? playerWord, int turn)
             {
                 YellowPrintLanguage($"Such a word alredy exists! \nGame over! Player {turn} wins!", $"Такое слово уже есть! \nИгра окончена! Игрок {turn} победил!");
                 RecordingWords(playerWord);
+                WinsAndLosses(turn, firstName, secondName);
                 End(out game);
             }
         }
@@ -672,6 +700,148 @@ void ReadingWords()
                 turn -= 1;
                 name = firstName;
             }
+        }
+    }
+    else
+    {
+        YellowPrintLanguage($"File {fileName} not found!", $"Файл {fileName} не найден!");
+    }
+}
+///<summary>
+///E.A.T. 24-September-2024
+///To add wins and losses.
+///</summary>
+void WinsAndLosses(int numWiner, string firstName, string secondName)
+{
+    string fileName = "players.json";
+    List<Player> players;
+    string nameWiner = "";
+    string nameLosser = "";
+    if (numWiner == 1)
+    {
+        nameWiner = firstName;
+        nameLosser = secondName;
+    }
+    else if (numWiner == 2)
+    {
+        nameWiner = secondName;
+        nameLosser = firstName;
+    }
+    DeserializeFileListPlayer(fileName, out players);
+    foreach (var player in players)
+    {
+        if (player.Name == nameWiner)
+        {
+            int numberWins = player.Wins;
+            player.UpdateWins(numberWins + 1);
+        }
+        else if (player.Name == nameLosser)
+        {
+            int numberLosses = player.Losses;
+            player.UpdateLosses(player.Losses + 1);
+        }
+    }
+    SerializeFileListPlayer(fileName, players);
+}
+///<summary>
+///E.A.T. 24-September-2024
+///To record a player.
+///</summary>
+void RecordingPlayer(out string name)
+{
+    bool playerName = true;
+    do
+    {
+        NameInput(out name);
+        bool recordingName = true;
+        string fileName = "players.json";
+        List<Player> players;
+
+        // Чтение существующих данных из файла
+        if (File.Exists(fileName))
+        {
+            DeserializeFileListPlayer(fileName, out players);
+        }
+        else
+        {
+            players = new List<Player>();
+        }
+        ChekForPlayerNameRepetition(name, out recordingName);
+        if (recordingName == false)
+        {
+            PrintLanguage("Name recorded!", "Имя записано!");
+            playerName = false;
+            // Добавление нового слова
+            players.Add(new Player(name, 0, 0));
+            // Сериализация данных в JSON и запись в файл
+            SerializeFileListPlayer(fileName, players);
+        }
+    } while (playerName == true);
+}
+///<summary>
+///E.A.T. 24-September-2024
+///To check for a duplicate name.
+///</summary>
+void ChekForPlayerNameRepetition(string name, out bool recordingName)
+{
+    recordingName = false;
+    List<Player> players;
+    string fileName = "players.json";
+    if (File.Exists(fileName))
+    {
+        DeserializeFileListPlayer(fileName, out players);
+        foreach (var player in players)
+        {
+            if (player.Name == name)
+            {
+                PrintLanguage("This name is taken!", "Данное имя занято!");
+                recordingName = true;
+            }
+        }
+    }
+    else
+    {
+        YellowPrintLanguage($"File {fileName} not found!", $"Файл {fileName} не найден!");
+    }
+}
+///<summary>
+///E.A.T. 24-September-2024
+///To list players who are currently playing. 
+///</summary>
+void ReadingScore(string firstName, string secondName)
+{
+    List<Player> players;
+    string fileName = "players.json";
+    if (File.Exists(fileName))
+    {
+        DeserializeFileListPlayer(fileName, out players);
+        foreach (var player in players)
+        {
+            if (player.Name == firstName || player.Name == secondName)
+            {
+                PrintLanguage($"Player: {player.Name}, Wins: {player.Wins}, Losses: {player.Losses}", $"Игрок: {player.Name}, Побед: {player.Wins}, Проигрышей: {player.Losses}");
+            }
+        }
+    }
+    else
+    {
+        YellowPrintLanguage($"File {fileName} not found!", $"Файл {fileName} не найден!");
+    }
+}
+///<summary>
+///E.A.T. 24-September-2024
+///To list all players (name, wins, and losses).
+///</summary>
+void ReadingTotalScore()
+{
+    List<Player> players;
+    string fileName = "players.json";
+    if (File.Exists(fileName))
+    {
+        DeserializeFileListPlayer(fileName, out players);
+        foreach (var player in players)
+        {
+            PrintLanguage($"Player: {player.Name}, Wins: {player.Wins}, Losses: {player.Losses}",$"Игрок: {player.Name}, Побед: {player.Wins}, Проигрышей: {player.Losses}");
         }
     }
     else
