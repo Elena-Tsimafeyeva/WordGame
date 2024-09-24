@@ -749,15 +749,11 @@ void WinsAndLosses(int numWiner, string firstName, string secondName)
 ///</summary>
 void RecordingPlayer(out string name)
 {
-    bool playerName = true;
-    do
-    {
+    
         NameInput(out name);
         bool recordingName = true;
         string fileName = "players.json";
         List<Player> players;
-
-        // Чтение существующих данных из файла
         if (File.Exists(fileName))
         {
             DeserializeFileListPlayer(fileName, out players);
@@ -769,14 +765,10 @@ void RecordingPlayer(out string name)
         ChekForPlayerNameRepetition(name, out recordingName);
         if (recordingName == false)
         {
-            PrintLanguage("Name recorded!", "Имя записано!");
-            playerName = false;
-            // Добавление нового слова
+            PrintLanguage($"Welcome, {name}!", $"Добро пожаловать, {name}!");
             players.Add(new Player(name, 0, 0));
-            // Сериализация данных в JSON и запись в файл
             SerializeFileListPlayer(fileName, players);
         }
-    } while (playerName == true);
 }
 ///<summary>
 ///E.A.T. 24-September-2024
@@ -794,7 +786,7 @@ void ChekForPlayerNameRepetition(string name, out bool recordingName)
         {
             if (player.Name == name)
             {
-                PrintLanguage("This name is taken!", "Данное имя занято!");
+                PrintLanguage($"Welcome back, {name}!", $"С возвращением, {name}!"); ;
                 recordingName = true;
             }
         }
