@@ -682,6 +682,7 @@ void ReadingWords()
 ///<summary>
 ///E.A.T. 24-September-2024
 ///Serialize data to JSON and write to file.
+///For the word list.
 ///</summary>
 void SerializeFileListString(string fileName, List<string> words)
 {
@@ -693,11 +694,34 @@ void SerializeFileListString(string fileName, List<string> words)
 ///E.A.T. 24-September-2024
 ///Read existing data from file. 
 ///The variable "word" will store the deserialized data from the file.
+///For the word list.
 ///</summary>
 void DeserializeFileListString(string fileName, out List<string> words)
 {
     string jsonStringFromFile = File.ReadAllText(fileName);
     words = JsonSerializer.Deserialize<List<string>>(jsonStringFromFile) ?? new List<string>();
+}
+///<summary>
+///E.A.T. 24-September-2024
+///Serialize data to JSON and write to file.
+///For the player list.
+///</summary>
+void SerializeFileListPlayer(string fileName, List<Player> words)
+{
+    string jsonString = JsonSerializer.Serialize(words, new JsonSerializerOptions { WriteIndented = true });
+    File.WriteAllText(fileName, jsonString);
+
+}
+///<summary>
+///E.A.T. 24-September-2024
+///Read existing data from file. 
+///The variable "players" will store the deserialized data from the file.
+///For the player list.
+///</summary>
+void DeserializeFileListPlayer(string fileName, out List<Player> players)
+{
+    string jsonStringFromFile = File.ReadAllText(fileName);
+    players = JsonSerializer.Deserialize<List<Player>>(jsonStringFromFile) ?? new List<Player>();
 }
 ///<summary>
 ///E.A.T. 23-September-2024
