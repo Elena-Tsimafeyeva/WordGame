@@ -620,6 +620,9 @@ void CheckForWordRepetition(string? playerWord, int turn)
 ///<summary>
 ///E.A.T. 23-September-2024
 ///Writing words to the file "words.json".
+///E.A.T. 24-September-2024
+///Update.
+///Added "DeserializeFileListString" and "SerializeFileListString" methods.
 ///</summary>
 void RecordingWords(string? playerWord)
 {
@@ -627,20 +630,21 @@ void RecordingWords(string? playerWord)
     List<string> words;
     if (File.Exists(fileName))
     {
-        string jsonStringFromFile = File.ReadAllText(fileName);
-        words = JsonSerializer.Deserialize<List<string>>(jsonStringFromFile) ?? new List<string>();
+        DeserializeFileListString(fileName, out words);
     }
     else
     {
         words = new List<string>();
     }
     words.Add(new string(playerWord));
-    string jsonString = JsonSerializer.Serialize(words, new JsonSerializerOptions { WriteIndented = true });
-    File.WriteAllText(fileName, jsonString);
+    SerializeFileListString(fileName, words);
 }
 ///<summary>
 ///E.A.T. 23-September-2024
 ///Reading words from the file "words.json".
+///E.A.T. 24-September-2024
+///Update.
+///Added "DeserializeFileListString" method.
 ///</summary>
 void ReadingWords()
 {
@@ -650,8 +654,7 @@ void ReadingWords()
     {
         int turn = 1;
         string name = firstName;
-        string jsonStringFromFile = File.ReadAllText(fileName);
-        words = JsonSerializer.Deserialize<List<string>>(jsonStringFromFile) ?? new List<string>();
+        DeserializeFileListString(fileName, out words);
         foreach (var word in words)
         {
             PrintLanguage($"Player {turn} | {name} |: {word}",$"Игрок {turn} | {name} |: {word}");
@@ -671,6 +674,26 @@ void ReadingWords()
     {
         YellowPrintLanguage($"File {fileName} not found!", $"Файл {fileName} не найден!");
     }
+}
+///<summary>
+///E.A.T. 24-September-2024
+///Serialize data to JSON and write to file.
+///</summary>
+void SerializeFileListString(string fileName, List<string> words)
+{
+    string jsonString = JsonSerializer.Serialize(words, new JsonSerializerOptions { WriteIndented = true });
+    File.WriteAllText(fileName, jsonString);
+
+}
+///<summary>
+///E.A.T. 24-September-2024
+///Read existing data from file. 
+///The variable "word" will store the deserialized data from the file.
+///</summary>
+void DeserializeFileListString(string fileName, out List<string> words)
+{
+    string jsonStringFromFile = File.ReadAllText(fileName);
+    words = JsonSerializer.Deserialize<List<string>>(jsonStringFromFile) ?? new List<string>();
 }
 ///<summary>
 ///E.A.T. 23-September-2024
