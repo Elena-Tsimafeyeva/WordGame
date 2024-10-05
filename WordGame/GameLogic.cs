@@ -18,12 +18,10 @@ namespace WordGame
         ///</summary>
         internal void EnterTheMainWord(out string? initialWord, string language, string eng, string rus, string secondAlphabet, string symbolsAndNumbers, bool game, bool gameProcess, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord, string firstName, string secondName, int exitTurn)
         {
-            Output output = new();
-            GameCommandsManager commandsManager = new();
             initialWord = null;
             Output.PrintLanguage("Rules: The essence of the game is for 2 users to alternately enter words consisting\nof the letters of the initially specified word. The one who does not enter the word in turn loses.", "Правила: Суть игры заключается в том, чтобы 2 пользователя поочередно вводили слова, состоящие\nиз букв первоначально указанного слова. Проигрывает тот, кто в свою очередь не вводит слово.", language, eng, rus);
             Output.YellowPrintLanguage("Enter the first word to start the game (from 8 to 30 characters)", "Введите первое слово для начала игры (от 8 до 30 символов)", language, eng, rus);
-            commandsManager.ListOfCommands(out initialWord, language, eng, rus, firstName, secondName, game, gameProcess, exitTurn, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord);//Ввод первоначального слова
+            GameCommandsManager.ListOfCommands(out initialWord, language, eng, rus, firstName, secondName, game, gameProcess, exitTurn, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord);//Ввод первоначального слова
             CheckingForIncorrectSymbolsInTheMainWord(initialWord, secondAlphabet, symbolsAndNumbers, game, gameProcess, language, eng, rus, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, firstName, secondName, exitTurn);//Проверка первоначального слова на верные символы
             CheckTheMainWord(initialWord, language, eng, rus, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, game, gameProcess, secondAlphabet, symbolsAndNumbers, firstName, secondName, exitTurn);//Проверка первоначального слова на кол-во символов
         }
@@ -58,7 +56,7 @@ namespace WordGame
         ///E.A.T. 02-September-2024
         ///Messages about entering incorrect letters or symbols and numbers.
         ///</summary>
-        internal void ErrorMessageToCheckTheMainWord(int check, string language, string eng, string rus)
+        internal static void ErrorMessageToCheckTheMainWord(int check, string language, string eng, string rus)
         {
             switch (check)
             {
@@ -98,11 +96,10 @@ namespace WordGame
         ///</summary>
         internal void Game(string symbols, string? initialWord, string? playerInput, int turn, int check, string language, string eng, string rus, bool gameProcess, bool game, string secondAlphabet, string symbolsAndNumbers, string firstName, string secondName, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord, int exitTurn)//Проверка слова введёного игроком по отношению к первоначальному слову
         {
-            PlayerFileRepository playerFileRepository = new();
             if (playerInput.Length == 0)//Проверка ввёл ли игрок слово
             {
                 Output.YellowPrintLanguage($"You have not entered anything :(\nGame over! Player {turn} wins!", $"Вы ничего не ввели :(\nИгра окончена! Победил игрок {turn}!", language, eng, rus);
-                playerFileRepository.EditingWinsAndLosses(turn, firstName, secondName);
+                PlayerFileRepository.EditingWinsAndLosses(turn, firstName, secondName);
                 End(out game, initialWord, language, eng, rus, gameProcess, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, firstName, secondName, exitTurn);
             }
             else //Если игрок ввёл слово
@@ -117,7 +114,6 @@ namespace WordGame
         ///</summary>
         internal void ChekTheEnteredWordAgainstTheMainWord(string symbols, string? initialWord, string? playerInput, int turn, int check, string language, string eng, string rus, bool gameProcess, bool game, string secondAlphabet, string symbolsAndNumbers, string firstName, string secondName, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord, int exitTurn)
         {
-            PlayerFileRepository playerFileRepository = new(); 
             int letterCounterForMainWord = 0;
             int letterCounterForUserWord = 0;
             for (int i = 0; i < symbols.Length; i++)//Проверка введённого слова по отношению первоначальному слову
@@ -127,7 +123,7 @@ namespace WordGame
                     if (letterCounterForMainWord < letterCounterForUserWord)//Если слово введённое игроком не соответствует по символам главному слову, то игра заканчивается. 
                     {
                         ErrorMessagesInTheGameMethod(check, turn, language, eng, rus);
-                        playerFileRepository.EditingWinsAndLosses(turn, firstName, secondName);
+                        PlayerFileRepository.EditingWinsAndLosses(turn, firstName, secondName);
                         End(out game, initialWord, language, eng, rus, gameProcess, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, firstName, secondName, exitTurn);
                     }
                 }
@@ -170,9 +166,8 @@ namespace WordGame
         ///E.A.T. 31-August-2024
         ///Error messages in method "Game".
         ///</summary>
-        internal void ErrorMessagesInTheGameMethod(int check, int turn, string language, string eng, string rus)
+        internal static void ErrorMessagesInTheGameMethod(int check, int turn, string language, string eng, string rus)
         {
-            Output output = new();
             switch (check)
             {
                 case 1:
@@ -196,15 +191,12 @@ namespace WordGame
         ///</summary>
         internal void FirstPlayerEnterTheWord(out string? firstPlayerInput, string initialWord, string language, string eng, string rus, string firstName, string secondName, bool game, bool gameProcess, string secondAlphabet, string symbolsAndNumbers, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord, int exitTurn)
         {
-            Output output = new();
-            GameCommandsManager commandsManager = new();
-            PlayerFileRepository playerFileRepository = new();
             TimerCallback tm = new TimerCallback(FirstTime); //Таймер на 15 сек
             Timer timer = new Timer(tm, null, 15000, 0);
-            commandsManager.ListOfCommands(out firstPlayerInput, language, eng, rus, firstName, secondName, game, gameProcess, exitTurn, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord); //Ввод слова игроком 1
+            GameCommandsManager.ListOfCommands(out firstPlayerInput, language, eng, rus, firstName, secondName, game, gameProcess, exitTurn, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord); //Ввод слова игроком 1
             timer.Dispose();//Отключение таймера
-            playerFileRepository.CheckForWordRepetition(firstPlayerInput, 2, language, eng, rus, firstName, secondName, game, gameProcess, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, exitTurn);
-            playerFileRepository.RecordingWords(firstPlayerInput);
+            PlayerFileRepository.CheckForWordRepetition(firstPlayerInput, 2, language, eng, rus, firstName, secondName, game, gameProcess, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, exitTurn);
+            PlayerFileRepository.RecordingWords(firstPlayerInput);
             ///<summary>
             ///E.A.T. 15-August-2024
             ///The game ends if the first player fails to enter within 15 seconds.
@@ -212,7 +204,7 @@ namespace WordGame
             void FirstTime(object? obj)//Если игрок 1 не успел ввести слово за 15 сек
             {
                 Output.YellowPrintLanguage("You didn't have time! Player 2 wins!", "Вы не успели! Победил игрок 2!", language, eng, rus);
-                playerFileRepository.EditingWinsAndLosses(2, firstName, secondName);
+                PlayerFileRepository.EditingWinsAndLosses(2, firstName, secondName);
                 End(out game, initialWord, language, eng, rus, gameProcess, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, firstName, secondName, exitTurn);
             }
         }
@@ -226,15 +218,12 @@ namespace WordGame
         ///</summary>
         internal void SecondPlayerEnterTheWord(out string? secondPlayerInput, string initialWord, string language, string eng, string rus, string firstName, string secondName, bool game, bool gameProcess, string secondAlphabet, string symbolsAndNumbers, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord, int exitTurn)
         {
-            Output output = new();
-            GameCommandsManager commandsManager = new();
-            PlayerFileRepository playerFileRepository = new();
             TimerCallback tm1 = new TimerCallback(SecondTime); //Таймер на 15 сек
             Timer timer1 = new Timer(tm1, null, 15000, 0);
-            commandsManager.ListOfCommands(out secondPlayerInput, language, eng, rus, firstName, secondName, game, gameProcess, exitTurn, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord); //Ввод слова игроком 2
+            GameCommandsManager.ListOfCommands(out secondPlayerInput, language, eng, rus, firstName, secondName, game, gameProcess, exitTurn, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord); //Ввод слова игроком 2
             timer1.Dispose();//Отключение таймера
-            playerFileRepository.CheckForWordRepetition(secondPlayerInput, 1, language, eng, rus, firstName, secondName, game, gameProcess, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, exitTurn);
-            playerFileRepository.RecordingWords(secondPlayerInput);
+            PlayerFileRepository.CheckForWordRepetition(secondPlayerInput, 1, language, eng, rus, firstName, secondName, game, gameProcess, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, exitTurn);
+            PlayerFileRepository.RecordingWords(secondPlayerInput);
             ///<summary>
             ///E.A.T. 15-August-2024
             ///The game ends if the second player fails to enter within 15 seconds.
@@ -242,7 +231,7 @@ namespace WordGame
             void SecondTime(object? obj)//Если игрок 2 не успел ввести слово за 15 сек
             {
                 Output.YellowPrintLanguage("You didn't have time! Player 1 wins!", "Вы не успели! Победил игрок 1!", language, eng, rus);
-                playerFileRepository.EditingWinsAndLosses(1, firstName, secondName);
+                PlayerFileRepository.EditingWinsAndLosses(1, firstName, secondName);
                 End(out game, initialWord, language, eng, rus, gameProcess, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, firstName, secondName, exitTurn);
             }
         }
@@ -252,7 +241,7 @@ namespace WordGame
         /// E.A.T. 12-August-2024
         /// Change the text color for the first player to green. 
         /// </summary>
-        internal void FirstPlayerTextColor(string initialWord, string firstName, string language, string eng, string rus)
+        internal static void FirstPlayerTextColor(string initialWord, string firstName, string language, string eng, string rus)
         {
             Output.PrintLanguage($"Your initial word: {initialWord}", $"Ваше изначальное слово: {initialWord}", language, eng, rus);
             Output.GreenPrintLanguage($"Player 1 | {firstName} | Enter your word! You have 15 seconds", $"Игрок 1 | {firstName} | Введите ваше слово! У вас 15 сек", language, eng, rus);
@@ -261,7 +250,7 @@ namespace WordGame
         /// E.A.T. 12-August-2024
         /// Change the text color for the second player to blue. 
         /// </summary>
-        internal void SecondPlayerTextColor(string initialWord, string secondName, string language, string eng, string rus)
+        internal static void SecondPlayerTextColor(string initialWord, string secondName, string language, string eng, string rus)
         {
             Output.PrintLanguage($"Your initial word: {initialWord}", $"Ваше изначальное слово: {initialWord}", language, eng, rus);
             Output.BluePrintLanguage($"Player 2 | {secondName} | Enter your word! You have 15 seconds", $"Игрок 2 | {secondName} | Введите ваше слово! У вас 15 сек", language, eng, rus);
@@ -274,9 +263,6 @@ namespace WordGame
         ///</summary>
         internal void End(out bool game, string initialWord, string language, string eng, string rus, bool gameProcess, string secondAlphabet, string symbolsAndNumbers, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord, string firstName, string secondName, int exitTurn)
         {
-            Output output = new();
-            GameCommandsManager commandsManager = new();
-            PlayerFileRepository playerFileRepository = new();
             gameProcess = false;
             Output.PrintLanguage("Do you want to play again?\n1 - Yes, 2 - No", "Вы хотите сыграть ещё раз?\n1 - Да, 2 - Нет", language, eng, rus);
             game = false;
@@ -284,19 +270,19 @@ namespace WordGame
             do
             {
                 string? answer;
-                commandsManager.ListOfCommands(out answer, language, eng, rus, firstName, secondName, game, gameProcess, exitTurn, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord);
+                GameCommandsManager.ListOfCommands(out answer, language, eng, rus, firstName, secondName, game, gameProcess, exitTurn, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord);
                 if (answer == "1")
                 {
                     Output.YellowPrintLanguage("Next round!", "Следующий раунд!", language, eng, rus);
                     game = true;
                     endBool = false;
-                    playerFileRepository.DeleteFile("words.json");
+                    PlayerFileRepository.DeleteFile("words.json");
                     EnterTheMainWord(out initialWord, language, eng, rus, secondAlphabet, symbolsAndNumbers, game, gameProcess, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, firstName, secondName, exitTurn);
                 }
                 else if (answer == "2")
                 {
                     Output.YellowPrintLanguage("Game over!", "Игра завершена!", language, eng, rus);
-                    playerFileRepository.DeleteFile("words.json");
+                    PlayerFileRepository.DeleteFile("words.json");
                     Environment.Exit(0);
                 }
             } while (endBool == true);

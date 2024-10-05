@@ -13,7 +13,7 @@ namespace WordGame
         ///The method accepts commands during the game.
         ///</summary>
 
-        internal void ListOfCommands(out string? commandOrWord, string language, string eng, string rus, string firstName, string secondName, bool game, bool gameProcess, int exitTurn, string initialWord, string secondAlphabet, string symbolsAndNumbers, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord)
+        internal static void ListOfCommands(out string? commandOrWord, string language, string eng, string rus, string firstName, string secondName, bool game, bool gameProcess, int exitTurn, string initialWord, string secondAlphabet, string symbolsAndNumbers, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord)
         {
             bool boolCommands = true;
             do
@@ -40,10 +40,8 @@ namespace WordGame
         ///E.A.T. 23-September-2024
         ///show-words displays a list of words.
         ///</summary>
-        internal void Commands(string command, string language, string eng, string rus, string firstName, string secondName, bool game, bool gameProcess, int exitTurn, string initialWord, string secondAlphabet, string symbolsAndNumbers, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord)
+        internal static void Commands(string command, string language, string eng, string rus, string firstName, string secondName, bool game, bool gameProcess, int exitTurn, string initialWord, string secondAlphabet, string symbolsAndNumbers, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord)
         {
-            Input input = new();
-            PlayerFileRepository playerFileRepository = new ();
             switch (command)
             {
                 case "/help":
@@ -51,29 +49,29 @@ namespace WordGame
                     break;
                 case "/show-words":
                     Output.PrintLanguage("List of words for this game.", "Список слов за эту игру.", language, eng, rus);
-                    playerFileRepository.ReadingWords(language, eng, rus, firstName, secondName);
+                    PlayerFileRepository.ReadingWords(language, eng, rus, firstName, secondName);
                     break;
                 case "/score":
                     Output.PrintLanguage("/score", "/score", language, eng, rus);
-                    playerFileRepository.ReadingScore(firstName, secondName, language, eng, rus);
+                    PlayerFileRepository.ReadingScore(firstName, secondName, language, eng, rus);
                     break;
                 case "/total-score":
                     Output.PrintLanguage("/total-score", "/total-score", language, eng, rus);
-                    playerFileRepository.ReadingTotalScore(language, eng, rus);
+                    PlayerFileRepository.ReadingTotalScore(language, eng, rus);
                     break;
                 case "/exit":
                     ExitCommand(language, eng, rus, game, gameProcess, firstName, secondName, exitTurn, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord);
                     break;
             }
         }
-        internal void ExitCommand(string language, string eng, string rus, bool game, bool gameProcess, string firstName, string secondName, int exitTurn, string initialWord, string secondAlphabet, string symbolsAndNumbers, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord)
+        internal static void ExitCommand(string language, string eng, string rus, bool game, bool gameProcess, string firstName, string secondName, int exitTurn, string initialWord, string secondAlphabet, string symbolsAndNumbers, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord)
         {
             PlayerFileRepository playerFileRepository = new ();
             GameLogic gameLogic = new ();
             if (gameProcess == true)
             {
                 Output.YellowPrintLanguage("You have completed this round!", "Вы завершили этот рауд!", language, eng, rus);
-                playerFileRepository.EditingWinsAndLosses(exitTurn, firstName, secondName);
+                PlayerFileRepository.EditingWinsAndLosses(exitTurn, firstName, secondName);
                 gameLogic.End(out game, initialWord, language, eng, rus, gameProcess, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, firstName, secondName, exitTurn);
             }
             else if (gameProcess == false)

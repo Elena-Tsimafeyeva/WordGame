@@ -52,7 +52,7 @@ namespace WordGame {
             Language.SelectingALanguageAndSettingAlphabets(out mainAlphabet,out secondAlphabet, out language, eng, rus, english, russian);
             //E.A.T. 05-September-2024
             //Entering user names.
-            playerFileRepository.PlayerNames(out firstName, out secondName, language, eng, rus, game, gameProcess, exitTurn, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord);
+            PlayerFileRepository.PlayerNames(out firstName, out secondName, language, eng, rus, game, gameProcess, exitTurn, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord);
             //E.A.T. 15-August-2024
             //A method is called to enter the initial word.
             //Checking the main word.
@@ -72,12 +72,12 @@ namespace WordGame {
             do{
                 gameProcess = true;
                 exitTurn = 2;
-                gameLogic.FirstPlayerTextColor(initialWord, firstName, language, eng, rus);
+                GameLogic.FirstPlayerTextColor(initialWord, firstName, language, eng, rus);
                 gameLogic.FirstPlayerEnterTheWord(out firstPlayerInput, initialWord, language, eng, rus, firstName, secondName, game, gameProcess, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, exitTurn);
                 gameLogic.Game(mainAlphabet, initialWord, firstPlayerInput, 2, 1, language, eng, rus, gameProcess, game, secondAlphabet, symbolsAndNumbers, firstName, secondName, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, exitTurn);//Проверка слова введёного игроком 1 по отношению к первоначальному слову
                 gameLogic.CheckingForIncorrectSymbolsInTheUsersWord(secondAlphabet, symbolsAndNumbers, initialWord, firstPlayerInput, 2, language, eng, rus, gameProcess, game, symbolsAndNumbers, firstName, secondName, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, exitTurn);
                 exitTurn = 1;
-                gameLogic.SecondPlayerTextColor(initialWord, secondName, language, eng, rus);
+                GameLogic.SecondPlayerTextColor(initialWord, secondName, language, eng, rus);
                 gameLogic.SecondPlayerEnterTheWord(out secondPlayerInput, initialWord, language, eng, rus, firstName, secondName, game, gameProcess, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, exitTurn);
                 gameLogic.Game(mainAlphabet, initialWord, secondPlayerInput, 1, 1, language, eng, rus, gameProcess, game, secondAlphabet, symbolsAndNumbers, firstName, secondName, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, exitTurn);//Проверка слова введёного игроком 2 по отношению к первоначальному слову
                 gameLogic.CheckingForIncorrectSymbolsInTheUsersWord(secondAlphabet, symbolsAndNumbers, initialWord, secondPlayerInput, 1, language, eng, rus, gameProcess, game, symbolsAndNumbers, firstName, secondName, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, exitTurn);

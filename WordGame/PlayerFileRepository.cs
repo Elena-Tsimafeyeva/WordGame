@@ -15,7 +15,7 @@ namespace WordGame
         ///E.A.T. 19-September-2024
         ///Greeting added.
         ///</summary>
-        internal void PlayerNames(out string? firstName, out string? secondName, string language, string eng, string rus, bool game, bool gameProcess, int exitTurn, string initialWord, string secondAlphabet, string symbolsAndNumbers, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord)
+        internal static void PlayerNames(out string? firstName, out string? secondName, string language, string eng, string rus, bool game, bool gameProcess, int exitTurn, string initialWord, string secondAlphabet, string symbolsAndNumbers, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord)
         {
             gameProcess = false;
             firstName = null;
@@ -32,29 +32,55 @@ namespace WordGame
         ///Name input and checking.
         ///E.A.T. 20-September-2024
         ///You can enter commands while entering names. 
+        ///E.A.T. 04-October-2024
+        ///You can't enter anything.
+        ///The second player can't write the first player's name.
         ///</summary>
         internal static void NameInput(out string? name, string language, string eng, string rus, string firstName, string secondName, bool game, bool gameProcess, int exitTurn, string initialWord, string secondAlphabet, string symbolsAndNumbers, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord)
         {
-            GameCommandsManager gameCommandsManager = new ();
             bool nameBool = true;
             do
             {
-                gameCommandsManager.ListOfCommands(out name, language, eng, rus, firstName, secondName, game, gameProcess, exitTurn, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord);
-                if (name != ""|| name != null)
-                {
-                    nameBool = false;
-                }
-                else
+                GameCommandsManager.ListOfCommands(out name, language, eng, rus, firstName, secondName, game, gameProcess, exitTurn, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord);
+                CheckCharactersInName(name, out int numberOfSymbols);
+                if (numberOfSymbols == 0)
                 {
                     Output.PrintLanguage("Enter your name!", "Введите ваше имя!", language, eng, rus);
                 }
-            } while (nameBool == true);
+                else if (firstName == name)
+                {
+                    Output.PrintLanguage("The name is taken by the first player!\nEnter your name!", "Имя занято первым игроком!\nВведите ваше имя!", language, eng, rus);
+                }
+                else
+                {
+                    nameBool = false;
+                }
+            }while (nameBool == true);
+        }
+        ///<summary>
+        ///E.A.T. 04-October-2024
+        ///Checking if a name contains characters.
+        ///</summary>
+        internal static void CheckCharactersInName(string? name, out int numberOfSymbols)
+        {
+            numberOfSymbols = 0;
+            string symbols = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZабвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ1234567890@#£_&-+()/*':;!?~`|•√π÷×§∆€¥$¢^°={}%©®™✓[]<>,.";
+            for (int i = 0; i < symbols.Length; i++)
+                {
+                for (int j = 0; j < name.Length; j++)
+                    {
+                    if (symbols[i] == name[j])
+                    {
+                        numberOfSymbols += 1;
+                    }
+                }
+            }
         }
         ///<summary> 
         ///E.A.T. 23-September-2024
         ///This is a method to check for word repetition. 
         ///</summary>
-        internal void CheckForWordRepetition(string? playerWord, int turn, string language, string eng, string rus, string firstName, string secondName, bool game, bool gameProcess, string initialWord, string secondAlphabet, string symbolsAndNumbers, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord, int exitTurn)
+        internal static void CheckForWordRepetition(string? playerWord, int turn, string language, string eng, string rus, string firstName, string secondName, bool game, bool gameProcess, string initialWord, string secondAlphabet, string symbolsAndNumbers, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord, int exitTurn)
         {
             GameLogic gameLogic = new();
             string fileName = "words.json";
@@ -82,7 +108,7 @@ namespace WordGame
         ///Update.
         ///Added "DeserializeFileListString" and "SerializeFileListString" methods.
         ///</summary>
-        internal void RecordingWords(string? playerWord)
+        internal static void RecordingWords(string? playerWord)
         {
             string fileName = "words.json";
             List<string> words;
@@ -104,7 +130,7 @@ namespace WordGame
         ///Update.
         ///Added "DeserializeFileListString" method.
         ///</summary>
-        internal void ReadingWords(string language, string eng, string rus, string firstName, string secondName)
+        internal static void ReadingWords(string language, string eng, string rus, string firstName, string secondName)
         {
             string fileName = "words.json";
             List<string> words;
@@ -137,7 +163,7 @@ namespace WordGame
         ///E.A.T. 24-September-2024
         ///To add wins and losses.
         ///</summary>
-        internal void EditingWinsAndLosses(int numWiner, string firstName, string secondName)
+        internal static void EditingWinsAndLosses(int numWiner, string firstName, string secondName)
         {
             string fileName = "players.json";
             List<Player> players;
@@ -173,7 +199,7 @@ namespace WordGame
         ///E.A.T. 24-September-2024
         ///To record a player.
         ///</summary>
-        internal void RecordingPlayer(out string name, string language, string eng, string rus, string firstName, string secondName, bool game, bool gameProcess, int exitTurn, string initialWord, string secondAlphabet, string symbolsAndNumbers, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord)
+        internal static void RecordingPlayer(out string name, string language, string eng, string rus, string firstName, string secondName, bool game, bool gameProcess, int exitTurn, string initialWord, string secondAlphabet, string symbolsAndNumbers, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord)
         {
             NameInput(out name, language, eng, rus, firstName, secondName, game, gameProcess, exitTurn, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord);
             bool recordingName = true;
@@ -199,7 +225,7 @@ namespace WordGame
         ///E.A.T. 24-September-2024
         ///To check for a duplicate name.
         ///</summary>
-        internal void ChekForPlayerNameRepetition(string name, out bool recordingName, string language, string eng, string rus)
+        internal static void ChekForPlayerNameRepetition(string name, out bool recordingName, string language, string eng, string rus)
         {
             recordingName = false;
             List<Player> players;
@@ -225,7 +251,7 @@ namespace WordGame
         ///E.A.T. 24-September-2024
         ///To list players who are currently playing. 
         ///</summary>
-        internal void ReadingScore(string firstName, string secondName, string language, string eng, string rus)
+        internal static void ReadingScore(string firstName, string secondName, string language, string eng, string rus)
         {
             List<Player> players;
             string fileName = "players.json";
@@ -249,7 +275,7 @@ namespace WordGame
         ///E.A.T. 24-September-2024
         ///To list all players (name, wins, and losses).
         ///</summary>
-        internal void ReadingTotalScore(string language, string eng, string rus)
+        internal static void ReadingTotalScore(string language, string eng, string rus)
         {
             List<Player> players;
             string fileName = "players.json";
@@ -271,7 +297,7 @@ namespace WordGame
         ///Serialize data to JSON and write to file.
         ///For the word list.
         ///</summary>
-        internal void SerializeFileListString(string fileName, List<string> words)
+        internal static void SerializeFileListString(string fileName, List<string> words)
         {
             string jsonString = JsonSerializer.Serialize(words, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(fileName, jsonString);
@@ -283,7 +309,7 @@ namespace WordGame
         ///The variable "word" will store the deserialized data from the file.
         ///For the word list.
         ///</summary>
-        internal void DeserializeFileListString(string fileName, out List<string> words)
+        internal static void DeserializeFileListString(string fileName, out List<string> words)
         {
             string jsonStringFromFile = File.ReadAllText(fileName);
             words = JsonSerializer.Deserialize<List<string>>(jsonStringFromFile) ?? new List<string>();
@@ -293,7 +319,7 @@ namespace WordGame
         ///Serialize data to JSON and write to file.
         ///For the player list.
         ///</summary>
-        internal void SerializeFileListPlayer(string fileName, List<Player> words)
+        internal static void SerializeFileListPlayer(string fileName, List<Player> words)
         {
             string jsonString = JsonSerializer.Serialize(words, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(fileName, jsonString);
@@ -305,7 +331,7 @@ namespace WordGame
         ///The variable "players" will store the deserialized data from the file.
         ///For the player list.
         ///</summary>
-        internal void DeserializeFileListPlayer(string fileName, out List<Player> players)
+        internal static void DeserializeFileListPlayer(string fileName, out List<Player> players)
         {
             string jsonStringFromFile = File.ReadAllText(fileName);
             players = JsonSerializer.Deserialize<List<Player>>(jsonStringFromFile) ?? new List<Player>();
@@ -314,7 +340,7 @@ namespace WordGame
         ///E.A.T. 23-September-2024
         ///Delete file.
         ///</summary>
-        internal void DeleteFile(string fileName)
+        internal static void DeleteFile(string fileName)
         {
             if (File.Exists(fileName))
             {
