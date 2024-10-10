@@ -340,12 +340,50 @@ namespace WordGame
         ///E.A.T. 23-September-2024
         ///Delete file.
         ///</summary>
-        internal static void DeleteFile(string fileName)
+        internal static void DeleteFile(string fileName, string language, string eng, string rus)
         {
             if (File.Exists(fileName))
             {
                 File.Delete(fileName);
+                if (fileName == "players.json") {
+                    Output.YellowPrintLanguage("The list has been removed.", "Список удалён.", language, eng, rus);
+                }
             }
+        }
+        ///<summary>
+        ///E.A.T. 10-October-2024
+        ///Delete the list of all players.
+        ///</summary>
+        internal static void DeleteTheListOfAllPlayers(string language, string eng, string rus, string firstName, string secondName, bool game, bool gameProcess, int exitTurn, string initialWord, string secondAlphabet, string symbolsAndNumbers, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord)
+        {
+            bool deleteBool = true;
+            do
+            {
+                Output.YellowPrintLanguage("Do you want to clear the entire players list? Y(Yes)/N(No)", "Вы хотите очистить весь список игроков? Д(Да)/Н(Нет)", language, eng, rus);
+                GameCommandsManager.ListOfCommands(out string? commandOrWord, language, eng, rus, firstName, secondName, game, gameProcess, exitTurn, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord);
+                if (language == eng)
+                {
+                    if(commandOrWord == "Y"|| commandOrWord == "y")
+                    {
+                        DeleteFile("players.json", language, eng, rus);
+                        deleteBool = false;
+                    }
+                    else if(commandOrWord == "N" || commandOrWord == "n") {
+                        deleteBool = false;
+                    }
+                }
+                else if (language == rus)
+                {
+                    if (commandOrWord == "Д" || commandOrWord == "д")
+                    {
+                        DeleteFile("players.json", language, eng, rus);
+                        deleteBool = false;
+                    }
+                    else if (commandOrWord == "Н" || commandOrWord == "н") {
+                        deleteBool = false;
+                    }
+                }
+            } while (deleteBool);
         }
     }
 }

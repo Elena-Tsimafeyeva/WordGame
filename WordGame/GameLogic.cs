@@ -276,13 +276,13 @@ namespace WordGame
                     Output.YellowPrintLanguage("Next round!", "Следующий раунд!", language, eng, rus);
                     game = true;
                     endBool = false;
-                    PlayerFileRepository.DeleteFile("words.json");
+                    PlayerFileRepository.DeleteFile("words.json", language, eng, rus);
                     EnterTheMainWord(out initialWord, language, eng, rus, secondAlphabet, symbolsAndNumbers, game, gameProcess, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, firstName, secondName, exitTurn);
                 }
                 else if (answer == "2")
                 {
                     Output.YellowPrintLanguage("Game over!", "Игра завершена!", language, eng, rus);
-                    PlayerFileRepository.DeleteFile("words.json");
+                    PlayerFileRepository.DeleteFile("words.json", language, eng, rus);
                     Environment.Exit(0);
                 }
             } while (endBool == true);

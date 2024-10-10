@@ -50,6 +50,9 @@ namespace WordGame {
             //Displays the selected language.
             //Definition of main and second language.
             Language.SelectingALanguageAndSettingAlphabets(out mainAlphabet,out secondAlphabet, out language, eng, rus, english, russian);
+            //E.A.T. 10-October-2024
+            //Delete the list of all players.
+            PlayerFileRepository.DeleteTheListOfAllPlayers(language, eng, rus, firstName, secondName, game, gameProcess, exitTurn, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord);
             //E.A.T. 05-September-2024
             //Entering user names.
             PlayerFileRepository.PlayerNames(out firstName, out secondName, language, eng, rus, game, gameProcess, exitTurn, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord);

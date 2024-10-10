@@ -64,6 +64,10 @@ namespace WordGame
                     break;
             }
         }
+        ///<summary>
+        ///E.A.T. 24-September-2024
+        ///Ending a round manually.
+        /// </summary>
         internal static void ExitCommand(string language, string eng, string rus, bool game, bool gameProcess, string firstName, string secondName, int exitTurn, string initialWord, string secondAlphabet, string symbolsAndNumbers, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord)
         {
             PlayerFileRepository playerFileRepository = new ();
