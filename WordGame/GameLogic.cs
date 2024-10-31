@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WordGame
 {
-    internal class GameLogic
+    public class GameLogic
     {
         ///<summary>
         ///E.A.T. 15-August-2024
@@ -22,17 +22,19 @@ namespace WordGame
             Output.PrintLanguage("Rules: The essence of the game is for 2 users to alternately enter words consisting\nof the letters of the initially specified word. The one who does not enter the word in turn loses.", "Правила: Суть игры заключается в том, чтобы 2 пользователя поочередно вводили слова, состоящие\nиз букв первоначально указанного слова. Проигрывает тот, кто в свою очередь не вводит слово.", language, eng, rus);
             Output.YellowPrintLanguage("Enter the first word to start the game (from 8 to 30 characters)", "Введите первое слово для начала игры (от 8 до 30 символов)", language, eng, rus);
             GameCommandsManager.ListOfCommands(out initialWord, language, eng, rus, firstName, secondName, game, gameProcess, exitTurn, initialWord, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord);//Ввод первоначального слова
-            CheckingForIncorrectSymbolsInTheMainWord(initialWord, secondAlphabet, symbolsAndNumbers, game, gameProcess, language, eng, rus, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, firstName, secondName, exitTurn);//Проверка первоначального слова на верные символы
-            CheckTheMainWord(initialWord, language, eng, rus, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, game, gameProcess, secondAlphabet, symbolsAndNumbers, firstName, secondName, exitTurn);//Проверка первоначального слова на кол-во символов
+            CheckingForIncorrectSymbolsInTheMainWord(out bool chekCorrect, initialWord, secondAlphabet, symbolsAndNumbers, game, gameProcess, language, eng, rus, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, firstName, secondName, exitTurn);//Проверка первоначального слова на верные символы
+            CheckTheMainWord(initialWord, language, eng, rus, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, game, gameProcess, secondAlphabet, symbolsAndNumbers, firstName, secondName, exitTurn, out string messageEng, out string messageRus);//Проверка первоначального слова на кол-во символов
         }
         ///<summary>
         ///E.A.T. 02-September-2024
         ///Compare the main word with the selected alphabet or symbols and numbers.
         ///</summary>
-        internal void CheckingForIncorrectSymbolsInTheMainWord(string initialWord, string secondAlphabet, string symbolsAndNumbers, bool game, bool gameProcess, string language, string eng, string rus, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord, string firstName, string secondName, int exitTurn)
+        public void CheckingForIncorrectSymbolsInTheMainWord(out bool chekCorrect, string initialWord, string secondAlphabet, string symbolsAndNumbers, bool game, bool gameProcess, string language, string eng, string rus, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord, string firstName, string secondName, int exitTurn)
         {
+            chekCorrect = false;
             CheckingTheSymbolsOfTheMainWord(secondAlphabet, initialWord, 1, game, language, eng, rus, gameProcess, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, firstName, secondName, exitTurn);
             CheckingTheSymbolsOfTheMainWord(symbolsAndNumbers, initialWord, 2, game, language, eng, rus, gameProcess, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, firstName, secondName, exitTurn);
+            chekCorrect = true;
         }
         ///<summary>
         ///E.A.T. 02-September-2024
@@ -46,7 +48,7 @@ namespace WordGame
                 {
                     if (symbols[i] == initialWord[j])
                     {
-                        ErrorMessageToCheckTheMainWord(check, language, eng, rus);
+                        ErrorMessageToCheckTheMainWord(check, language, eng, rus, out string messageEng, out string messageRus);
                         End(out game, initialWord, language, eng, rus, gameProcess, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, firstName, secondName, exitTurn);
                     }
                 }
@@ -56,15 +58,21 @@ namespace WordGame
         ///E.A.T. 02-September-2024
         ///Messages about entering incorrect letters or symbols and numbers.
         ///</summary>
-        internal static void ErrorMessageToCheckTheMainWord(int check, string language, string eng, string rus)
+        public static void ErrorMessageToCheckTheMainWord(int check, string language, string eng, string rus, out string messageEng, out string messageRus)
         {
+            messageEng = "messageEng";
+            messageRus = "messageRus";
             switch (check)
             {
                 case 1:
-                    Output.YellowPrintLanguage("When entering the main word, you used letters of the Russian alphabet, not English.", "При вводе главного слова вы использовали буквы английского алфавита, а не русского.", language, eng, rus);
+                    messageEng = "When entering the main word, you used letters of the Russian alphabet, not English.";
+                    messageRus = "При вводе главного слова вы использовали буквы английского алфавита, а не русского.";
+                    Output.YellowPrintLanguage(messageEng, messageRus, language, eng, rus);
                     break;
                 case 2:
-                    Output.YellowPrintLanguage("You used symbols or numbers when entering the main word.", "При вводе главного слова вы использовали символы или цифры.", language, eng, rus);
+                    messageEng = "You used symbols or numbers when entering the main word.";
+                    messageRus = "При вводе главного слова вы использовали символы или цифры.";
+                    Output.YellowPrintLanguage(messageEng, messageRus, language, eng, rus);
                     break;
             }
         }
@@ -74,12 +82,16 @@ namespace WordGame
         ///If the length of the main word matches the rules, the game starts.
         ///Otherwise, the game ends with the appropriate message.
         ///</summary>
-        internal void CheckTheMainWord(string? initialWord, string language, string eng, string rus, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord, bool game, bool gameProcess, string secondAlphabet, string symbolsAndNumbers, string firstName, string secondName, int exitTurn)
+        public void CheckTheMainWord(string? initialWord, string language, string eng, string rus, int minNumberOfSymbolsInTheMainWord, int maxNumberOfSymbolsInTheMainWord, bool game, bool gameProcess, string secondAlphabet, string symbolsAndNumbers, string firstName, string secondName, int exitTurn, out string messageEng, out string messageRus)
         {
+            messageEng = "messageEng";
+            messageRus = "messageRus";
             int numberOfSymbolsInTheMainWord = initialWord.Length;
             bool requiredNumberOfSymbolsInTheMainWord = ((minNumberOfSymbolsInTheMainWord <= numberOfSymbolsInTheMainWord) & (numberOfSymbolsInTheMainWord <= maxNumberOfSymbolsInTheMainWord)); //Длина первоначально вводимого слова – от 8 до 30 символов
             if (requiredNumberOfSymbolsInTheMainWord == true)
             {
+                messageEng = "Have a nice game!";
+                messageRus = "Хорошей игры!";
                 Output.PrintLanguage("Have a nice game!", "Хорошей игры!", language, eng, rus);
             }
             else
