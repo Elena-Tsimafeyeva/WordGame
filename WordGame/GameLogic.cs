@@ -134,7 +134,7 @@ namespace WordGame
                 {
                     if (letterCounterForMainWord < letterCounterForUserWord)//Если слово введённое игроком не соответствует по символам главному слову, то игра заканчивается. 
                     {
-                        ErrorMessagesInTheGameMethod(check, turn, language, eng, rus);
+                        ErrorMessagesInTheGameMethod(check, turn, language, eng, rus, out string messageEng, out string messageRus);
                         PlayerFileRepository.EditingWinsAndLosses(turn, firstName, secondName);
                         End(out game, initialWord, language, eng, rus, gameProcess, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, firstName, secondName, exitTurn);
                     }
@@ -146,7 +146,7 @@ namespace WordGame
         ///E.A.T. 15-August-2024
         ///Determining the number of symbols in the player's word and in the main word.
         ///</summary>
-        internal void ChekingSymbolsInAWord(string symbols, string? initialWord, string? playerInput, int i, out int letterCounterForMainWord, out int letterCounterForUserWord)
+        public static void ChekingSymbolsInAWord(string symbols, string? initialWord, string? playerInput, int i, out int letterCounterForMainWord, out int letterCounterForUserWord)
         {
             letterCounterForMainWord = 0;
             letterCounterForUserWord = 0;
@@ -178,18 +178,26 @@ namespace WordGame
         ///E.A.T. 31-August-2024
         ///Error messages in method "Game".
         ///</summary>
-        internal static void ErrorMessagesInTheGameMethod(int check, int turn, string language, string eng, string rus)
+        public static void ErrorMessagesInTheGameMethod(int check, int turn, string language, string eng, string rus, out string messageEng, out string messageRus)
         {
+            messageEng = "messageEng";
+            messageRus = "messageRus";
             switch (check)
             {
                 case 1:
-                    Output.YellowPrintLanguage($"Game over! Player {turn} wins!", $"Игра окончена! Победил игрок {turn}!", language, eng, rus);
+                    messageEng = $"Game over! Player {turn} wins!";
+                    messageRus = $"Игра окончена! Победил игрок {turn}!";
+                    Output.YellowPrintLanguage(messageEng, messageRus, language, eng, rus);
                     break;
                 case 2:
-                    Output.YellowPrintLanguage($"You entered letters from the Russian alphabet, not English.\nGame over! Player {turn} wins!", $"Вы ввели буквы из английского алфавита, а не русского.\nИгра окончена! Победил игрок {turn}!", language, eng, rus);
+                    messageEng = $"You entered letters from the Russian alphabet, not English.\nGame over! Player {turn} wins!";
+                    messageRus = $"Вы ввели буквы из английского алфавита, а не русского.\nИгра окончена! Победил игрок {turn}!";
+                    Output.YellowPrintLanguage(messageEng, messageRus, language, eng, rus);
                     break;
                 case 3:
-                    Output.YellowPrintLanguage($"You have entered characters or numbers.\nGame over! Player {turn} wins!", $"Вы ввели символы или цифры.\nИгра окончена! Победил игрок {turn}!", language, eng, rus);
+                    messageEng = $"You have entered characters or numbers.\nGame over! Player {turn} wins!";
+                    messageRus = $"Вы ввели символы или цифры.\nИгра окончена! Победил игрок {turn}!";
+                    Output.YellowPrintLanguage(messageEng, messageRus, language, eng, rus);
                     break;
             }
         }
@@ -253,19 +261,27 @@ namespace WordGame
         /// E.A.T. 12-August-2024
         /// Change the text color for the first player to green. 
         /// </summary>
-        internal static void FirstPlayerTextColor(string initialWord, string firstName, string language, string eng, string rus)
+        public static void FirstPlayerTextColor(string initialWord, string firstName, string language, string eng, string rus, out string messageInitialWordEng, out string messageInitialWordRus, out string messageEnterWordEng, out string messageEnterWordRus)
         {
-            Output.PrintLanguage($"Your initial word: {initialWord}", $"Ваше изначальное слово: {initialWord}", language, eng, rus);
-            Output.GreenPrintLanguage($"Player 1 | {firstName} | Enter your word! You have 15 seconds", $"Игрок 1 | {firstName} | Введите ваше слово! У вас 15 сек", language, eng, rus);
+            messageInitialWordEng = $"Your initial word: {initialWord}";
+            messageInitialWordRus = $"Ваше изначальное слово: {initialWord}";
+            Output.PrintLanguage(messageInitialWordEng, messageInitialWordRus, language, eng, rus);
+            messageEnterWordEng = $"Player 1 | {firstName} | Enter your word! You have 15 seconds";
+            messageEnterWordRus = $"Игрок 1 | {firstName} | Введите ваше слово! У вас 15 сек";
+            Output.GreenPrintLanguage(messageEnterWordEng, messageEnterWordRus, language, eng, rus);
         }
         /// <summary>
         /// E.A.T. 12-August-2024
         /// Change the text color for the second player to blue. 
         /// </summary>
-        internal static void SecondPlayerTextColor(string initialWord, string secondName, string language, string eng, string rus)
+        public static void SecondPlayerTextColor(string initialWord, string secondName, string language, string eng, string rus, out string messageInitialWordEng, out string messageInitialWordRus, out string messageEnterWordEng, out string messageEnterWordRus)
         {
-            Output.PrintLanguage($"Your initial word: {initialWord}", $"Ваше изначальное слово: {initialWord}", language, eng, rus);
-            Output.BluePrintLanguage($"Player 2 | {secondName} | Enter your word! You have 15 seconds", $"Игрок 2 | {secondName} | Введите ваше слово! У вас 15 сек", language, eng, rus);
+            messageInitialWordEng = $"Your initial word: {initialWord}";
+            messageInitialWordRus = $"Ваше изначальное слово: {initialWord}";
+            Output.PrintLanguage(messageInitialWordEng, messageInitialWordRus, language, eng, rus);
+            messageEnterWordEng = $"Player 2 | {secondName} | Enter your word! You have 15 seconds";
+            messageEnterWordRus = $"Игрок 2 | {secondName} | Введите ваше слово! У вас 15 сек";
+            Output.BluePrintLanguage(messageEnterWordEng, messageEnterWordRus, language, eng, rus);
         }
         ///<summary>
         ///E.A.T. 19-September-2024

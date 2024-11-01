@@ -75,12 +75,12 @@ namespace WordGame {
             do{
                 gameProcess = true;
                 exitTurn = 2;
-                GameLogic.FirstPlayerTextColor(initialWord, firstName, language, eng, rus);
+                GameLogic.FirstPlayerTextColor(initialWord, firstName, language, eng, rus, out string messageInitialWordEng, out string messageInitialWordRus, out string messageEnterWordEng, out string messageEnterWordRus);
                 gameLogic.FirstPlayerEnterTheWord(out firstPlayerInput, initialWord, language, eng, rus, firstName, secondName, game, gameProcess, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, exitTurn);
                 gameLogic.Game(mainAlphabet, initialWord, firstPlayerInput, 2, 1, language, eng, rus, gameProcess, game, secondAlphabet, symbolsAndNumbers, firstName, secondName, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, exitTurn);//Проверка слова введёного игроком 1 по отношению к первоначальному слову
                 gameLogic.CheckingForIncorrectSymbolsInTheUsersWord(secondAlphabet, symbolsAndNumbers, initialWord, firstPlayerInput, 2, language, eng, rus, gameProcess, game, symbolsAndNumbers, firstName, secondName, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, exitTurn);
                 exitTurn = 1;
-                GameLogic.SecondPlayerTextColor(initialWord, secondName, language, eng, rus);
+                GameLogic.SecondPlayerTextColor(initialWord, secondName, language, eng, rus, out messageInitialWordEng, out messageInitialWordRus, out messageEnterWordEng, out messageEnterWordRus);
                 gameLogic.SecondPlayerEnterTheWord(out secondPlayerInput, initialWord, language, eng, rus, firstName, secondName, game, gameProcess, secondAlphabet, symbolsAndNumbers, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, exitTurn);
                 gameLogic.Game(mainAlphabet, initialWord, secondPlayerInput, 1, 1, language, eng, rus, gameProcess, game, secondAlphabet, symbolsAndNumbers, firstName, secondName, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, exitTurn);//Проверка слова введёного игроком 2 по отношению к первоначальному слову
                 gameLogic.CheckingForIncorrectSymbolsInTheUsersWord(secondAlphabet, symbolsAndNumbers, initialWord, secondPlayerInput, 1, language, eng, rus, gameProcess, game, symbolsAndNumbers, firstName, secondName, minNumberOfSymbolsInTheMainWord, maxNumberOfSymbolsInTheMainWord, exitTurn);
